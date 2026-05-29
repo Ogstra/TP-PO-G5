@@ -20,7 +20,14 @@ public class Jugador {
     }
 
     public void recibirDanio(double danio) {
-        // TODO: restar vida segun danio recibido
+        if (danio <= 0) {
+            return;
+        }
+
+        this.vida -= (int) danio;
+        if (this.vida < 0) {
+            this.vida = 0;
+        }
     }
 
     public void perderVida() {

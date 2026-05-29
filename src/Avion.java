@@ -12,20 +12,32 @@ public class Avion {
     }
 
     public void mover(double dx, double dy) {
-        // TODO: actualizar posicion segun movimiento
+        this.posicion.setX(this.posicion.getX() + dx);
+        this.posicion.setY(this.posicion.getY() + dy);
     }
 
     public Misil generarMisil() {
-        // TODO: crear y retornar un nuevo misil desde la posicion del avion
-        return null;
+        Posicion posicionMisil = new Posicion(
+                this.posicion.getX(),
+                this.posicion.getY(),
+                this.posicion.getAltitud()
+        );
+
+        return new Misil(this.id, posicionMisil, this.velocidad);
     }
 
     public void lanzarMisil(Misil misil) {
-        // TODO: lanzar el misil generado
+        if (misil != null) {
+            misil.lanzar();
+        }
     }
 
     public void recibirDanio(double danio) {
-        // TODO: aplicar danio al avion
+        if (danio <= 0) {
+            return;
+        }
+
+        this.activo = false;
     }
 
     public boolean estaActivo() { return activo; }

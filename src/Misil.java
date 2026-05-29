@@ -12,16 +12,18 @@ public class Misil {
     }
 
     public void lanzar() {
-        // TODO: iniciar trayectoria del misil
+        this.posicion.setAltitud(this.altitudDetonacion);
     }
 
     public boolean verificarDetonacionPorAltitud() {
-        // TODO: retornar true si posicion.getAltitud() <= altitudDetonacion
-        return false;
+        return posicion.getAltitud() <= altitudDetonacion;
     }
 
     public Explosion detonar() {
-        // TODO: marcar como detonado y crear explosion en posicion actual
+        if (verificarDetonacionPorAltitud()) {
+            this.detonado = true;
+            return new Explosion(this.posicion, 100, 50); // Ejemplo de radio y potencia
+        }
         return null;
     }
 

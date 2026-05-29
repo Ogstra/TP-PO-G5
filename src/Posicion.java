@@ -18,7 +18,9 @@ public class Posicion {
     public void setAltitud(double altitud) { this.altitud = altitud; }
 
     public double distanciaA(Posicion otra) {
-        // TODO: calcular distancia euclidiana entre dos posiciones
-        return 0;
+        double dx = this.x - otra.x;
+        double dy = this.y - otra.y;
+        double dz = this.altitud - otra.altitud;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 }
