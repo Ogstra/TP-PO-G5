@@ -1,0 +1,13 @@
+# Compiled
+*.class
+*.jar
+*.war
+out/
+build/
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
