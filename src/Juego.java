@@ -27,7 +27,7 @@ public class Juego {
     }
 
     public void procesarDetonaciones() {
-        // TODO: verificar altitud de cada misil y detonar si corresponde
+        // TODO: verificar posicion Y de cada misil y detonar si corresponde
     }
 
     public void aplicarDanioExplosion(Explosion explosion) {

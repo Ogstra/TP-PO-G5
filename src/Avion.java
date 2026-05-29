@@ -19,8 +19,7 @@ public class Avion {
     public Misil generarMisil() {
         Posicion posicionMisil = new Posicion(
                 this.posicion.getX(),
-                this.posicion.getY(),
-                this.posicion.getAltitud()
+                this.posicion.getY()
         );
 
         return new Misil(this.id, posicionMisil, this.velocidad);

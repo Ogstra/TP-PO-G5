@@ -1,26 +1,26 @@
 public class Misil {
     private String id;
     private Posicion posicion;
-    private double altitudDetonacion;
+    private double yDetonacion;
     private boolean detonado;
 
-    public Misil(String id, Posicion posicionInicial, double altitudDetonacion) {
+    public Misil(String id, Posicion posicionInicial, double yDetonacion) {
         this.id = id;
         this.posicion = posicionInicial;
-        this.altitudDetonacion = altitudDetonacion;
+        this.yDetonacion = yDetonacion;
         this.detonado = false;
     }
 
     public void lanzar() {
-        this.posicion.setAltitud(this.altitudDetonacion);
+        this.posicion.setY(this.yDetonacion);
     }
 
-    public boolean verificarDetonacionPorAltitud() {
-        return posicion.getAltitud() <= altitudDetonacion;
+    public boolean verificarDetonacionPorY() {
+        return posicion.getY() <= yDetonacion;
     }
 
     public Explosion detonar() {
-        if (verificarDetonacionPorAltitud()) {
+        if (verificarDetonacionPorY()) {
             this.detonado = true;
             return new Explosion(this.posicion, 100, 50); // Ejemplo de radio y potencia
         }
@@ -29,6 +29,6 @@ public class Misil {
 
     public boolean estaDetonado() { return detonado; }
     public Posicion getPosicion() { return posicion; }
-    public double getAltitudDetonacion() { return altitudDetonacion; }
+    public double getYDetonacion() { return yDetonacion; }
     public String getId() { return id; }
 }
