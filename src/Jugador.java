@@ -12,11 +12,14 @@ public class Jugador {
     }
 
     public void sumarPuntos(int cantidad) {
-        // TODO: incrementar puntos del jugador
+        this.puntos += cantidad;
     }
 
     public void restarPuntos(int cantidad) {
-        // TODO: decrementar puntos (minimo 0)
+        this.puntos -= cantidad;
+        if (this.puntos < 0) {
+            this.puntos = 0;
+        }
     }
 
     public void recibirDanio(double danio) {
@@ -31,12 +34,16 @@ public class Jugador {
     }
 
     public void perderVida() {
-        // TODO: decrementar vidasRestantes, resetear vida
+        if (vidasRestantes > 0) {
+            vidasRestantes--;
+            vida = 100; // Reiniciar vida al perder una vida
+        } else {
+            vida = 0; // El jugador ha perdido todas las vidas
+        }
     }
 
     public boolean estaVivo() {
-        // TODO: retornar true si vida > 0 o vidasRestantes > 0
-        return false;
+        return vida > 0 || vidasRestantes > 0;
     }
 
     public String getNombre() { return nombre; }
