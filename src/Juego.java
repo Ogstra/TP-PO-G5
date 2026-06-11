@@ -30,7 +30,6 @@ public class Juego {
         Misil nuevoMisil = avion.generarMisil();
         if (nuevoMisil != null) {
             misiles.add(nuevoMisil);
-            avion.lanzarMisil(nuevoMisil);
         }
     }
 
@@ -52,7 +51,7 @@ public class Juego {
     public void procesarEscuadron() {
         escuadron.activarProximoDrone();
         escuadron.procesarMovimiento();
-        List<Misil> nuevos = escuadron.procesarLanzamientos(nivel.getFrecuenciaDisparo());
+        List<Misil> nuevos = escuadron.procesarLanzamientos(nivel.getFrecuenciaDisparo(), nivel.getVelocidadMisiles());
         misiles.addAll(nuevos);
     }
 
@@ -71,18 +70,14 @@ public class Juego {
                 misiles.remove(i);
                 continue;
             }
-            double velocidad = misil.esDelJugador() ? avion.getVelocidad() * 2 : nivel.getVelocidadMisiles();
-            misil.avanzar(velocidad);
+            misil.avanzar(); // cada subtipo conoce su direccion y velocidad
 
-            // Intentar detonacion antes de verificar limites,
-            // para que los misiles del jugador exploten al llegar a Y=0
+            // Solo los misiles enemigos detonan por altura (los del jugador devuelven null)
             Explosion explosion = misil.detonar();
             if (explosion != null) {
                 explosionesRecientes.add(explosion);
-                if (!misil.esDelJugador()) {
-                    double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
-                    aplicarDanioSegunDistancia(distancia);
-                }
+                double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
+                aplicarDanioSegunDistancia(distancia);
                 misiles.remove(i);
                 continue;
             }
