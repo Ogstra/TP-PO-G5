@@ -101,8 +101,12 @@ public class PanelJuego extends JPanel {
 
         if (!juego.isEnCurso()) {
             g.setColor(Color.YELLOW);
-            g.setFont(new Font("Monospaced", Font.BOLD, 32));
-            g.drawString("GAME OVER", getWidth() / 2 - 90, getHeight() / 2);
+            g.setFont(new Font("Monospaced", Font.BOLD, 48));
+            g.drawString("GAME OVER", getWidth() / 2 - 140, getHeight() / 2);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Monospaced", Font.PLAIN, 18));
+            g.drawString("Puntos finales: " + juego.getJugador().getPuntos(), getWidth() / 2 - 90, getHeight() / 2 + 40);
+            g.drawString("Pulsa P para salir", getWidth() / 2 - 90, getHeight() / 2 + 70);
         }
     }
 }

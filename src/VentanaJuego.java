@@ -20,17 +20,25 @@ public class VentanaJuego {
         juego.setNivel(nivel);
         juego.iniciar();
 
-        // Game loop
-        while (juego.debeContinuar() && !control.quiereSalir()) {
-            control.procesarMovimientoContinuo();
-            if (control.consumirDisparo()) {
-                juego.procesarLanzamientoMisil();
-            }
-            juego.procesarEscuadron();
-            juego.procesarCaidaMisiles();
-            juego.procesarColisiones();
-            if (juego.nivelCompleto()) {
-                juego.avanzarNivel();
+        boolean finalizado = false;
+
+        // Loop principal: corre hasta que el jugador pulse P (salir)
+        while (!control.quiereSalir()) {
+            if (juego.debeContinuar()) {
+                control.procesarMovimientoContinuo();
+                if (control.consumirDisparo()) {
+                    juego.procesarLanzamientoMisil();
+                }
+                juego.procesarEscuadron();
+                juego.procesarCaidaMisiles();
+                juego.procesarColisiones();
+                if (juego.nivelCompleto()) {
+                    juego.avanzarNivel();
+                }
+            } else if (!finalizado) {
+                // Game over: finaliza una vez, deja la ventana abierta con el cartel
+                juego.terminar();
+                finalizado = true;
             }
             panel.repaint();
             try {
@@ -40,7 +48,6 @@ public class VentanaJuego {
             }
         }
 
-        juego.terminar();
         ventana.dispose();
     }
 }
