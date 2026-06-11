@@ -1,3 +1,4 @@
+import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,12 +92,28 @@ public class Juego {
 
     // Mueve drones activos y agrega nuevos misiles enemigos a la lista
     public void procesarEscuadron() {
-        // TODO: llamar escuadron.procesarMovimiento(), luego procesarLanzamientos() y agregar misiles a lista
+        escuadron.activarProximoDrone();
+        escuadron.procesarMovimiento();
+        List<Misil> nuevos = escuadron.procesarLanzamientos(nivel.getFrecuenciaDisparo());
+        misiles.addAll(nuevos);
     }
 
     // Mueve todos los misiles enemigos hacia abajo (caen desde drones)
     public void procesarCaidaMisiles() {
-        // TODO: iterar misiles, llamar avanzar() hacia abajo, detonar si alcanzaron yDetonacion
+        for (int i = misiles.size() - 1; i >= 0; i--) {
+            Misil misil = misiles.get(i);
+            if (!misil.estaDetonado()) {
+                misil.avanzar(nivel.getVelocidadMisiles());
+                Explosion explosion = misil.detonar();
+                if (explosion != null) {
+                    double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
+                    aplicarDanioSegunDistancia(distancia);
+                    misiles.remove(i);
+                }
+            } else {
+                misiles.remove(i);
+            }
+        }
     }
 
     // Aplica daño segun 4 rangos de distancia definidos en el requerimiento
@@ -106,17 +123,17 @@ public class Juego {
         // 80-150m → +20 puntos, -20% energia
         // 20-80m  → sin puntos, -40% energia
         // < 20m   → pierde una vida
+        
     }
 
-    // Avanza al siguiente nivel, suma 300 puntos y recrea el escuadron con mayor velocidad
     public void avanzarNivel() {
-        // TODO: jugador.sumarPuntos(300), nivel = nivel.siguiente(), crear nuevo Escuadron
+        nivel = nivel.siguiente();
+        jugador.sumarPuntos(300);
+        escuadron = new Escuadron(nivel.getVelocidadDrones(), nivel.getCantidadDrones());
     }
 
-    // Verifica si el escuadron completo su recorrido para avanzar de nivel
     public boolean nivelCompleto() {
-        // TODO: retornar escuadron.estaCompleto()
-        return false;
+        return escuadron.estaCompleto();
     }
 
     public Jugador getJugador() { return jugador; }
