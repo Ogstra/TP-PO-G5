@@ -39,9 +39,4 @@ public class ControlJugador {
     public boolean quiereSalir() {
         return teclasPresionadas.contains(KeyEvent.VK_P);
     }
-
-    // Muestra en pantalla las opciones disponibles al jugador
-    public void mostrarOpciones() {
-        // TODO: imprimir las teclas/comandos validos con su descripcion
-    }
 }
