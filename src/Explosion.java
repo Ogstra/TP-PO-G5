@@ -2,12 +2,18 @@ public class Explosion {
     private Posicion epicentro;
     private double radioEfecto;
     private double potencia;
+    private int framesRestantes = 15;
 
     public Explosion(Posicion epicentro, double radioEfecto, double potencia) {
         this.epicentro = epicentro;
         this.radioEfecto = radioEfecto;
         this.potencia = potencia;
     }
+
+    // Envejece la animacion un frame
+    public void envejecer() { framesRestantes--; }
+    public boolean estaViva() { return framesRestantes > 0; }
+    public int getFramesRestantes() { return framesRestantes; }
 
     public double calcularDanioADistancia(Posicion objetivo) {
         double distancia = epicentro.distanciaA(objetivo);

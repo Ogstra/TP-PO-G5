@@ -17,18 +17,11 @@ public class Avion {
     }
 
     public Misil generarMisil() {
-        Posicion posicionMisil = new Posicion(
-                this.posicion.getX(),
-                this.posicion.getY()
-        );
-
-        return new Misil(this.id, posicionMisil, this.velocidad);
+        return new Misil(this.id, new Posicion(posicion.getX(), posicion.getY()), 0, true);
     }
 
     public void lanzarMisil(Misil misil) {
-        if (misil != null) {
-            misil.lanzar();
-        }
+        // no teleportar — el misil sube gradualmente via avanzar()
     }
 
     public void recibirDanio(double danio) {

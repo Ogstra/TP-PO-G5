@@ -23,8 +23,9 @@ public class Drone {
 
     public Misil lanzarMisil() {
         double minY = posicion.getY() + 50;
-        double yDetonacion = minY + Math.random() * (Posicion.Y_MAX - minY);
-        return new Misil(this.id, new Posicion(posicion.getX(), posicion.getY()), yDetonacion);
+        double maxY = Posicion.Y_MAX - 10;
+        double yDetonacion = minY < maxY ? minY + Math.random() * (maxY - minY) : maxY;
+        return new Misil(this.id, new Posicion(posicion.getX(), posicion.getY()), yDetonacion, false);
     }
 
     public boolean completoRecorrido() {
