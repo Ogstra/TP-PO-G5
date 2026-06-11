@@ -119,6 +119,10 @@ public class Juego {
         return misiles;
     }
 
+    public List<Drone> getDronesActivos() {
+        return escuadron != null ? escuadron.getDronesActivos() : new ArrayList<>();
+    }
+
     public boolean isEnCurso() {
         return enCurso;
     }

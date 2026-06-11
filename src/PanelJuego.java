@@ -46,6 +46,18 @@ public class PanelJuego extends JPanel {
             g.fillRect(ax - 3, ay + 6, 6, 6);
         }
 
+        // Drones
+        g.setColor(Color.GREEN);
+        for (Drone drone : juego.getDronesActivos()) {
+            int dx = (int) drone.getPosicion().getX();
+            int dy = (int) drone.getPosicion().getY();
+            g.fillPolygon(
+                new int[]{dx, dx - 12, dx - 8, dx + 8, dx + 12},
+                new int[]{dy + 8, dy - 4, dy + 4, dy + 4, dy - 4},
+                5
+            );
+        }
+
         // Misiles
         g.setColor(Color.RED);
         for (Misil misil : juego.getMisiles()) {
