@@ -27,7 +27,6 @@ public class ControlJugador {
         });
     }
 
-    // Aplica movimiento segun las teclas actualmente presionadas. Llamar cada tick del juego
     public void procesarMovimientoContinuo() {
         if (teclasPresionadas.contains(KeyEvent.VK_W)) juego.procesarMovimientoAvion(0, 1);
         if (teclasPresionadas.contains(KeyEvent.VK_S)) juego.procesarMovimientoAvion(0, -1);
@@ -35,7 +34,6 @@ public class ControlJugador {
         if (teclasPresionadas.contains(KeyEvent.VK_D)) juego.procesarMovimientoAvion(1, 0);
     }
 
-    // Retorna true si el jugador presiono P para salir
     public boolean quiereSalir() {
         return teclasPresionadas.contains(KeyEvent.VK_P);
     }
