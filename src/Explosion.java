@@ -20,7 +20,6 @@ public class Explosion {
     }
 
     public boolean afectaA(Posicion objetivo) {
-        // TODO: retornar true si objetivo esta dentro del radioEfecto
         return epicentro.distanciaA(objetivo) <= radioEfecto;
     }
 

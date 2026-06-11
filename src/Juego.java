@@ -57,20 +57,34 @@ public class Juego {
     }
 
     public void aplicarDanioExplosion(Explosion explosion) {
-        // TODO: calcular danio al avion y al jugador segun distancia a explosion
+        double distancia = avion.getPosicion().distanciaA(explosion.getEpicentro());
+        if (distancia <= explosion.getRadioEfecto()) {
+            double danio = explosion.getPotencia() * (1 - (distancia / explosion.getRadioEfecto()));
+            avion.recibirDanio(danio);
+            jugador.recibirDanio(danio);
+        }
     }
 
     public void actualizarPuntosYVida(Explosion explosion) {
-        // TODO: sumar/restar puntos y vida en base a resultado de explosion
+        if (avion.estaActivo()) {
+            jugador.sumarPuntos(100);
+        } else {
+            jugador.restarPuntos(50);
+            jugador.perderVida();
+        }
+
+        if (jugador.getPuntos() >= proximaVidaExtra) {
+            jugador.sumarPuntos(100); // Bonus por alcanzar puntos
+            proximaVidaExtra += 1000; // Incrementar el umbral para la próxima vida extra
+        }
     }
 
     public boolean debeContinuar() {
-        // TODO: retornar true si jugador sigue vivo y tiene puntos suficientes
-        return false;
+        return jugador.estaVivo() && avion.estaActivo();
     }
 
     public void terminar() {
-        // TODO: finalizar el juego y mostrar resultado
+        this.enCurso = false;
     }
 
     public Jugador getJugador() { return jugador; }
