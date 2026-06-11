@@ -10,13 +10,18 @@ public class Explosion {
     }
 
     public double calcularDanioADistancia(Posicion objetivo) {
-        // TODO: calcular danio basado en distancia entre epicentro y objetivo
-        return 0;
+        double distancia = epicentro.distanciaA(objetivo);
+        if (distancia > radioEfecto) {
+            return 0;
+        }
+
+        // Danio proporcional a la potencia y decrece con la distancia
+        return potencia * (1 - (distancia / radioEfecto));
     }
 
     public boolean afectaA(Posicion objetivo) {
         // TODO: retornar true si objetivo esta dentro del radioEfecto
-        return false;
+        return epicentro.distanciaA(objetivo) <= radioEfecto;
     }
 
     public Posicion getEpicentro() { return epicentro; }
