@@ -15,8 +15,13 @@ public class Misil {
         this.posicion.setY(this.yDetonacion);
     }
 
+    // Mueve el misil hacia abajo (Y aumenta en pantalla)
+    public void avanzar(double velocidad) {
+        this.posicion.setY(this.posicion.getY() + velocidad);
+    }
+
     public boolean verificarDetonacionPorY() {
-        return posicion.getY() <= yDetonacion;
+        return posicion.getY() >= yDetonacion;
     }
 
     public Explosion detonar() {
