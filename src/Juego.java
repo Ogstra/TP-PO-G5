@@ -33,67 +33,6 @@ public class Juego {
         }
     }
 
-    public void procesarDetonaciones() {
-        for (int i = misiles.size() - 1; i >= 0; i--) {
-            Misil misil = misiles.get(i);
-
-            if (!misil.estaDetonado()) {
-                misil.lanzar();
-
-                Explosion explosion = misil.detonar();
-
-                if (explosion != null) {
-                    aplicarDanioExplosion(explosion);
-                    actualizarPuntosYVida(explosion);
-
-                    misiles.remove(i);
-                }
-            } else {
-                misiles.remove(i);
-            }
-        }
-
-        if (!debeContinuar()) {
-            terminar();
-        }
-    }
-
-    public void aplicarDanioExplosion(Explosion explosion) {
-        double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
-
-        if (distancia > 150) {
-            return;
-        }
-
-        if (distancia >= 80 && distancia <= 150) {
-            jugador.recibirDanio(20);
-        } else if (distancia >= 20 && distancia < 80) {
-            jugador.recibirDanio(40);
-        } else {
-            jugador.perderVida();
-        }
-
-        if (!jugador.estaVivo()) {
-            avion.recibirDanio(100);
-            enCurso = false;
-        }
-    }
-
-    public void actualizarPuntosYVida(Explosion explosion) {
-        double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
-
-        if (distancia > 150) {
-            jugador.sumarPuntos(40);
-        } else if (distancia >= 80 && distancia <= 150) {
-            jugador.sumarPuntos(20);
-        }
-
-        while (jugador.getPuntos() >= proximaVidaExtra) {
-            jugador.ganarVidaExtra();
-            proximaVidaExtra += 1000;
-        }
-    }
-
     public boolean debeContinuar() {
         return enCurso && jugador.estaVivo() && avion.estaActivo();
     }
@@ -156,7 +95,7 @@ public class Juego {
     public void avanzarNivel() {
         nivel = nivel.siguiente();
         jugador.sumarPuntos(300);
-        escuadron = new Escuadron(nivel.getVelocidadDrones(), nivel.getCantidadDrones());
+        escuadron = new Escuadron(nivel.getVelocidadDrones());
     }
 
     public boolean nivelCompleto() {

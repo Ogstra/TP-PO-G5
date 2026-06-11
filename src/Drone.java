@@ -22,7 +22,8 @@ public class Drone {
     }
 
     public Misil lanzarMisil() {
-        double yDetonacion = Math.random() * (Posicion.Y_MAX - Posicion.Y_MIN) + Posicion.Y_MIN;
+        double minY = posicion.getY() + 50;
+        double yDetonacion = minY + Math.random() * (Posicion.Y_MAX - minY);
         return new Misil(this.id, new Posicion(posicion.getX(), posicion.getY()), yDetonacion);
     }
 

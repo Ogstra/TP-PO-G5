@@ -9,6 +9,15 @@ public class Escuadron {
     private List<Drone> dronesActivos = new ArrayList<>();
     private int indiceProximo = 0;
 
+    public Escuadron(double velocidad) {
+        for (int i = 0; i < TOTAL_DRONES; i++) {
+            boolean derecha = Math.random() < 0.5;
+            double x = derecha ? Posicion.X_MIN : Posicion.X_MAX;
+            double y = Math.random() * (Posicion.Y_MAX / 3);
+            drones.add(new Drone("D" + i, new Posicion(x, y), velocidad, derecha));
+        }
+    }
+
     public void agregarDrone(Drone drone) {
         if (drones.size() < TOTAL_DRONES) {
             drones.add(drone);
