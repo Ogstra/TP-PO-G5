@@ -1,4 +1,4 @@
-public class Jugador {
+public class Jugador implements IDanable {
     public static final int VIDA_MAX = 100;
 
     private String nombre;
@@ -24,12 +24,13 @@ public class Jugador {
         }
     }
 
-    public void recibirDanio(double danio) {
-        if (danio <= 0) {
+    @Override
+    public void recibirDanio(String tipo, double valor) {
+        if (valor <= 0) {
             return;
         }
 
-        this.vida -= (int) danio;
+        this.vida -= (int) valor;
         if (this.vida <= 0) {
             perderVida();
         }

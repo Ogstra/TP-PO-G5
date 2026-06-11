@@ -1,19 +1,24 @@
-public class Avion implements Posicionable {
-    private String id;
-    private Posicion posicion;
-    private double velocidad;
+// Avion controlado por el jugador. Es una EntidadVoladora y ademas puede
+// recibir dano (IDanable).
+public class Avion extends EntidadVoladora implements IDanable {
     private boolean activo;
 
     public Avion(String id, Posicion posicion, double velocidad) {
-        this.id = id;
-        this.posicion = posicion;
-        this.velocidad = velocidad;
+        super(id, posicion, velocidad);
         this.activo = true;
     }
 
+    // Movimiento controlado por el jugador (desplazamiento libre en 2D)
     public void mover(double dx, double dy) {
         this.posicion.setX(this.posicion.getX() + dx);
         this.posicion.setY(this.posicion.getY() + dy);
+    }
+
+    // mover() sin parametros de EntidadVoladora: el avion se mueve por input,
+    // no de forma automatica, por eso aqui no hace nada.
+    @Override
+    public void mover() {
+        // no-op: el desplazamiento real ocurre en mover(dx, dy)
     }
 
     public Misil generarMisil() {
@@ -21,11 +26,11 @@ public class Avion implements Posicionable {
         return new MisilJugador(this.id, new Posicion(posicion.getX(), posicion.getY()), velocidad * 2);
     }
 
-    public void recibirDanio(double danio) {
-        if (danio <= 0) {
+    @Override
+    public void recibirDanio(String tipo, double valor) {
+        if (valor <= 0) {
             return;
         }
-
         this.activo = false;
     }
 
@@ -36,7 +41,4 @@ public class Avion implements Posicionable {
     }
 
     public boolean estaActivo() { return activo; }
-    public Posicion getPosicion() { return posicion; }
-    public String getId() { return id; }
-    public double getVelocidad() { return velocidad; }
 }

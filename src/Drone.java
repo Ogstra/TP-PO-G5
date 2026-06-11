@@ -1,18 +1,16 @@
-public class Drone implements Posicionable {
-    private String id;
-    private Posicion posicion;
-    private double velocidad;
+// Dron enemigo. Es una EntidadVoladora que cruza la pantalla en horizontal
+// y lanza misiles que descienden.
+public class Drone extends EntidadVoladora {
     private boolean activo;
     private boolean moviendoseADerecha;
 
     public Drone(String id, Posicion posicion, double velocidad, boolean moviendoseADerecha) {
-        this.id = id;
-        this.posicion = posicion;
-        this.velocidad = velocidad;
+        super(id, posicion, velocidad);
         this.activo = true;
         this.moviendoseADerecha = moviendoseADerecha;
     }
 
+    @Override
     public void mover() {
         if (moviendoseADerecha) {
             posicion.setX(posicion.getX() + velocidad);
@@ -29,7 +27,7 @@ public class Drone implements Posicionable {
     }
 
     public boolean completoRecorrido() {
-        if  (moviendoseADerecha) {
+        if (moviendoseADerecha) {
             return posicion.getX() >= Posicion.X_MAX;
         } else {
             return posicion.getX() <= Posicion.X_MIN;
@@ -45,7 +43,4 @@ public class Drone implements Posicionable {
     }
 
     public boolean estaActivo() { return activo; }
-    public Posicion getPosicion() { return posicion; }
-    public double getVelocidad() { return velocidad; }
-    public String getId() { return id; }
 }
