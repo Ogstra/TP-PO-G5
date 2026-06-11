@@ -7,7 +7,7 @@ public class MisilJugador extends Misil {
     }
 
     @Override
-    public void avanzar() {
+    public void mover() {
         posicion.setY(posicion.getY() - velocidad); // sube (Y disminuye en pantalla)
     }
 

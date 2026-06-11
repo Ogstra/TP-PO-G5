@@ -70,7 +70,7 @@ public class Juego {
                 misiles.remove(i);
                 continue;
             }
-            misil.avanzar(); // cada subtipo conoce su direccion y velocidad
+            misil.mover(); // cada subtipo conoce su direccion y velocidad
 
             // Solo los misiles enemigos detonan por altura (los del jugador devuelven null)
             Explosion explosion = misil.detonar();
@@ -119,9 +119,9 @@ public class Juego {
             jugador.sumarPuntos(40);
         } else if (distancia >= 80) {
             jugador.sumarPuntos(20);
-            jugador.recibirDanio(Jugador.VIDA_MAX * 0.2);
+            jugador.recibirDanio("energia", Jugador.VIDA_MAX * 0.2);
         } else if (distancia >= 20) {
-            jugador.recibirDanio(Jugador.VIDA_MAX * 0.4);
+            jugador.recibirDanio("energia", Jugador.VIDA_MAX * 0.4);
         } else {
             jugador.perderVida();
         }

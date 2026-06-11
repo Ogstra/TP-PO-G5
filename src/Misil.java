@@ -1,26 +1,17 @@
-// Clase abstracta: generaliza el comportamiento comun de los misiles.
-// No se puede instanciar; se concreta en MisilJugador y MisilEnemigo.
-// El movimiento y la condicion de detonacion por altura son polimorficos.
-public abstract class Misil implements Posicionable {
-    protected String id;
-    protected Posicion posicion;
-    protected double velocidad;
+// Clase abstracta: misil generico. Es una EntidadVoladora; concreta su
+// movimiento y condicion de detonacion en MisilJugador y MisilEnemigo.
+public abstract class Misil extends EntidadVoladora {
     protected boolean detonado;
 
     protected Misil(String id, Posicion posicionInicial, double velocidad) {
-        this.id = id;
-        this.posicion = posicionInicial;
-        this.velocidad = velocidad;
+        super(id, posicionInicial, velocidad);
         this.detonado = false;
     }
-
-    // Cada subtipo decide su direccion de avance
-    public abstract void avanzar();
 
     // Cada subtipo decide si detona automaticamente por su altura
     protected abstract boolean alcanzoDetonacion();
 
-    // Indica si el misil daña al avion del jugador (enemigo) o ataca drones (jugador)
+    // Indica si el misil ataca drones (jugador) o daña al avion (enemigo)
     public abstract boolean esDelJugador();
 
     // Detonacion automatica por altura. Devuelve null si todavia no corresponde.
@@ -39,6 +30,4 @@ public abstract class Misil implements Posicionable {
     }
 
     public boolean estaDetonado() { return detonado; }
-    public Posicion getPosicion() { return posicion; }
-    public String getId() { return id; }
 }

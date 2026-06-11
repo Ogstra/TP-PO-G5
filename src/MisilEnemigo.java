@@ -9,7 +9,7 @@ public class MisilEnemigo extends Misil {
     }
 
     @Override
-    public void avanzar() {
+    public void mover() {
         posicion.setY(posicion.getY() + velocidad); // cae (Y aumenta en pantalla)
     }
 
