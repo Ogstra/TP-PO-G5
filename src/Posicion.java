@@ -1,8 +1,8 @@
 public class Posicion {
     public static final double X_MIN = 0;
-    public static final double X_MAX = 800;
+    public static final double X_MAX = 1280;
     public static final double Y_MIN = 0;
-    public static final double Y_MAX = 600;
+    public static final double Y_MAX = 720;
 
     private double x;
     private double y;
