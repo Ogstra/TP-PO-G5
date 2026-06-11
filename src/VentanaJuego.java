@@ -16,12 +16,18 @@ public class VentanaJuego {
         ventana.setVisible(true);
         panel.requestFocusInWindow();
 
+        Nivel nivel = new Nivel(1, 3, 0.02);
+        juego.setNivel(nivel);
         juego.iniciar();
 
         // Game loop
-        while (!control.quiereSalir()) {
+        while (juego.debeContinuar() && !control.quiereSalir()) {
             control.procesarMovimientoContinuo();
-            juego.procesarDetonaciones();
+            juego.procesarEscuadron();
+            juego.procesarCaidaMisiles();
+            if (juego.nivelCompleto()) {
+                juego.avanzarNivel();
+            }
             panel.repaint();
             try {
                 Thread.sleep(16);
@@ -31,7 +37,6 @@ public class VentanaJuego {
         }
 
         juego.terminar();
-        System.out.println("Fin. Puntos: " + jugador.getPuntos());
         ventana.dispose();
     }
 }

@@ -99,7 +99,12 @@ public class Juego {
     }
 
     public boolean nivelCompleto() {
-        return escuadron.estaCompleto();
+        return escuadron != null && escuadron.estaCompleto();
+    }
+
+    public void setNivel(Nivel nivel) {
+        this.nivel = nivel;
+        this.escuadron = new Escuadron(nivel.getVelocidadDrones());
     }
 
     public Jugador getJugador() {
