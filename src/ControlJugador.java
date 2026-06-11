@@ -28,8 +28,8 @@ public class ControlJugador {
     }
 
     public void procesarMovimientoContinuo() {
-        if (teclasPresionadas.contains(KeyEvent.VK_W)) juego.procesarMovimientoAvion(0, 1);
-        if (teclasPresionadas.contains(KeyEvent.VK_S)) juego.procesarMovimientoAvion(0, -1);
+        if (teclasPresionadas.contains(KeyEvent.VK_W)) juego.procesarMovimientoAvion(0, -1);
+        if (teclasPresionadas.contains(KeyEvent.VK_S)) juego.procesarMovimientoAvion(0, 1);
         if (teclasPresionadas.contains(KeyEvent.VK_A)) juego.procesarMovimientoAvion(-1, 0);
         if (teclasPresionadas.contains(KeyEvent.VK_D)) juego.procesarMovimientoAvion(1, 0);
     }
