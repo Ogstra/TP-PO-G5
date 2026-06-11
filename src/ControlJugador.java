@@ -1,28 +1,47 @@
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ControlJugador {
     private Juego juego;
-    private Scanner scanner;
+    private Set<Integer> teclasPresionadas = new HashSet<>();
 
-    public ControlJugador(Juego juego) {
+    public ControlJugador(Juego juego, JComponent componente) {
         this.juego = juego;
-        this.scanner = new Scanner(System.in);
+
+        componente.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                teclasPresionadas.add(e.getKeyCode());
+                if (e.getKeyCode() == KeyEvent.VK_M) {
+                    juego.procesarLanzamientoMisil();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                teclasPresionadas.remove(e.getKeyCode());
+            }
+        });
     }
 
-    // Lee el comando ingresado y lo procesa. Retorna false si el jugador eligio salir
-    public boolean procesarEntrada() {
-        String comando = scanner.nextLine().trim().toUpperCase();
+    // Aplica movimiento segun las teclas actualmente presionadas. Llamar cada tick del juego
+    public void procesarMovimientoContinuo() {
+        if (teclasPresionadas.contains(KeyEvent.VK_W)) juego.procesarMovimientoAvion(0, 1);
+        if (teclasPresionadas.contains(KeyEvent.VK_S)) juego.procesarMovimientoAvion(0, -1);
+        if (teclasPresionadas.contains(KeyEvent.VK_A)) juego.procesarMovimientoAvion(-1, 0);
+        if (teclasPresionadas.contains(KeyEvent.VK_D)) juego.procesarMovimientoAvion(1, 0);
+    }
 
-        switch (comando) {
-            case "W": juego.procesarMovimientoAvion(0, 1); break;
-            case "A": juego.procesarMovimientoAvion(-1, 0); break;
-            case "S": juego.procesarMovimientoAvion(0, -1); break;
-            case "D": juego.procesarMovimientoAvion(1, 0); break;
-            case "M": juego.procesarLanzamientoMisil(); break;
-            case "P": return false;
-            default: break;
-        }
+    // Retorna true si el jugador presiono P para salir
+    public boolean quiereSalir() {
+        return teclasPresionadas.contains(KeyEvent.VK_P);
+    }
 
-        return true;
+    // Muestra en pantalla las opciones disponibles al jugador
+    public void mostrarOpciones() {
+        // TODO: imprimir las teclas/comandos validos con su descripcion
     }
 }
