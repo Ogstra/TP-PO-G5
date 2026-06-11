@@ -55,19 +55,30 @@ public class Juego {
         misiles.addAll(nuevos);
     }
 
-    // Mueve todos los misiles enemigos hacia abajo (caen desde drones)
+    // Mueve todos los misiles y procesa detonaciones
     public void procesarCaidaMisiles() {
         for (int i = misiles.size() - 1; i >= 0; i--) {
             Misil misil = misiles.get(i);
-            if (!misil.estaDetonado()) {
-                misil.avanzar(nivel.getVelocidadMisiles());
-                Explosion explosion = misil.detonar();
-                if (explosion != null) {
+            if (misil.estaDetonado()) {
+                misiles.remove(i);
+                continue;
+            }
+            double velocidad = misil.esDelJugador() ? avion.getVelocidad() : nivel.getVelocidadMisiles();
+            misil.avanzar(velocidad);
+
+            // eliminar si sale de pantalla sin detonar
+            double y = misil.getPosicion().getY();
+            if (y >= Posicion.Y_MAX || y <= Posicion.Y_MIN) {
+                misiles.remove(i);
+                continue;
+            }
+
+            Explosion explosion = misil.detonar();
+            if (explosion != null) {
+                if (!misil.esDelJugador()) {
                     double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
                     aplicarDanioSegunDistancia(distancia);
-                    misiles.remove(i);
                 }
-            } else {
                 misiles.remove(i);
             }
         }

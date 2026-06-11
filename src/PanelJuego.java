@@ -59,9 +59,9 @@ public class PanelJuego extends JPanel {
         }
 
         // Misiles
-        g.setColor(Color.RED);
         for (Misil misil : juego.getMisiles()) {
             if (!misil.estaDetonado()) {
+                g.setColor(misil.esDelJugador() ? Color.YELLOW : Color.RED);
                 g.fillOval((int) misil.getPosicion().getX() - 4, (int) misil.getPosicion().getY() - 4, 8, 8);
             }
         }
