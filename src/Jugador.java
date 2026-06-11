@@ -29,7 +29,7 @@ public class Jugador {
 
         this.vida -= (int) danio;
         if (this.vida < 0) {
-            this.vida = 0;
+            perderVida();
         }
     }
 
@@ -40,6 +40,10 @@ public class Jugador {
         } else {
             vida = 0; // El jugador ha perdido todas las vidas
         }
+    }
+
+    public void ganarVidaExtra() {
+        this.vidasRestantes++;
     }
 
     public boolean estaVivo() {

@@ -1,4 +1,3 @@
-import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class Juego {
 
                 Explosion explosion = misil.detonar();
 
-                if(explosion != null) {
+                if (explosion != null) {
                     aplicarDanioExplosion(explosion);
                     actualizarPuntosYVida(explosion);
 
@@ -54,40 +53,59 @@ public class Juego {
             }
         }
 
-        if(!debeContinuar()) {
+        if (!debeContinuar()) {
             terminar();
         }
     }
 
     public void aplicarDanioExplosion(Explosion explosion) {
-        double distancia = avion.getPosicion().distanciaA(explosion.getEpicentro());
-        if (distancia <= explosion.getRadioEfecto()) {
-            double danio = explosion.getPotencia() * (1 - (distancia / explosion.getRadioEfecto()));
-            avion.recibirDanio(danio);
-            jugador.recibirDanio(danio);
+        double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
+
+        if (distancia > 150) {
+            return;
+        }
+
+        if (distancia >= 80 && distancia <= 150) {
+            jugador.recibirDanio(20);
+        } else if (distancia >= 20 && distancia < 80) {
+            jugador.recibirDanio(40);
+        } else {
+            jugador.perderVida();
+        }
+
+        if (!jugador.estaVivo()) {
+            avion.recibirDanio(100);
+            enCurso = false;
         }
     }
 
     public void actualizarPuntosYVida(Explosion explosion) {
-        if (avion.estaActivo()) {
-            jugador.sumarPuntos(100);
-        } else {
-            jugador.restarPuntos(50);
-            jugador.perderVida();
+        double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
+
+        if (distancia > 150) {
+            jugador.sumarPuntos(40);
+        } else if (distancia >= 80 && distancia <= 150) {
+            jugador.sumarPuntos(20);
         }
 
-        if (jugador.getPuntos() >= proximaVidaExtra) {
-            jugador.sumarPuntos(100); // Bonus por alcanzar puntos
-            proximaVidaExtra += 1000; // Incrementar el umbral para la próxima vida extra
+        while (jugador.getPuntos() >= proximaVidaExtra) {
+            jugador.ganarVidaExtra();
+            proximaVidaExtra += 1000;
         }
     }
 
     public boolean debeContinuar() {
-        return jugador.estaVivo() && avion.estaActivo();
+        return enCurso && jugador.estaVivo() && avion.estaActivo();
     }
 
     public void terminar() {
-        this.enCurso = false;
+        enCurso = false;
+
+        System.out.println("Juego finalizado.");
+        System.out.println("Jugador: " + jugador.getNombre());
+        System.out.println("Puntos obtenidos: " + jugador.getPuntos());
+        System.out.println("Vida actual: " + jugador.getVida());
+        System.out.println("Vidas restantes: " + jugador.getVidasRestantes());
     }
 
     // Mueve drones activos y agrega nuevos misiles enemigos a la lista
@@ -116,14 +134,23 @@ public class Juego {
         }
     }
 
-    // Aplica daño segun 4 rangos de distancia definidos en el requerimiento
+    // Aplica dano segun 4 rangos de distancia definidos en el requerimiento
     public void aplicarDanioSegunDistancia(double distancia) {
-        // TODO:
-        // > 150m  → +40 puntos, sin daño
-        // 80-150m → +20 puntos, -20% energia
-        // 20-80m  → sin puntos, -40% energia
-        // < 20m   → pierde una vida
-        
+        if (distancia > 150) {
+            jugador.sumarPuntos(40);
+        } else if (distancia >= 80) {
+            jugador.sumarPuntos(20);
+            jugador.recibirDanio(jugador.getVida() * 0.2);
+        } else if (distancia >= 20) {
+            jugador.recibirDanio(jugador.getVida() * 0.4);
+        } else {
+            jugador.perderVida();
+        }
+
+        while (jugador.getPuntos() >= proximaVidaExtra) {
+            jugador.ganarVidaExtra();
+            proximaVidaExtra += 1000;
+        }
     }
 
     public void avanzarNivel() {
@@ -136,8 +163,19 @@ public class Juego {
         return escuadron.estaCompleto();
     }
 
-    public Jugador getJugador() { return jugador; }
-    public Avion getAvion() { return avion; }
-    public List<Misil> getMisiles() { return misiles; }
-    public boolean isEnCurso() { return enCurso; }
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public Avion getAvion() {
+        return avion;
+    }
+
+    public List<Misil> getMisiles() {
+        return misiles;
+    }
+
+    public boolean isEnCurso() {
+        return enCurso;
+    }
 }
