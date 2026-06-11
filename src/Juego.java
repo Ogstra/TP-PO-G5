@@ -5,6 +5,7 @@ public class Juego {
     private Jugador jugador;
     private Avion avion;
     private List<Misil> misiles;
+    private List<Explosion> explosionesRecientes = new ArrayList<>();
     private boolean enCurso;
     private int proximaVidaExtra = 1000;
     private Escuadron escuadron;
@@ -57,16 +58,16 @@ public class Juego {
 
     // Mueve todos los misiles y procesa detonaciones
     public void procesarCaidaMisiles() {
+        explosionesRecientes.clear();
         for (int i = misiles.size() - 1; i >= 0; i--) {
             Misil misil = misiles.get(i);
             if (misil.estaDetonado()) {
                 misiles.remove(i);
                 continue;
             }
-            double velocidad = misil.esDelJugador() ? avion.getVelocidad() : nivel.getVelocidadMisiles();
+            double velocidad = misil.esDelJugador() ? avion.getVelocidad() * 2 : nivel.getVelocidadMisiles();
             misil.avanzar(velocidad);
 
-            // eliminar si sale de pantalla sin detonar
             double y = misil.getPosicion().getY();
             if (y >= Posicion.Y_MAX || y <= Posicion.Y_MIN) {
                 misiles.remove(i);
@@ -75,6 +76,7 @@ public class Juego {
 
             Explosion explosion = misil.detonar();
             if (explosion != null) {
+                explosionesRecientes.add(explosion);
                 if (!misil.esDelJugador()) {
                     double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
                     aplicarDanioSegunDistancia(distancia);
@@ -83,6 +85,8 @@ public class Juego {
             }
         }
     }
+
+    public List<Explosion> getExplosionesRecientes() { return explosionesRecientes; }
 
     // Aplica dano segun 4 rangos de distancia definidos en el requerimiento
     public void aplicarDanioSegunDistancia(double distancia) {

@@ -61,9 +61,30 @@ public class PanelJuego extends JPanel {
         // Misiles
         for (Misil misil : juego.getMisiles()) {
             if (!misil.estaDetonado()) {
-                g.setColor(misil.esDelJugador() ? Color.YELLOW : Color.RED);
-                g.fillOval((int) misil.getPosicion().getX() - 4, (int) misil.getPosicion().getY() - 4, 8, 8);
+                int mx = (int) misil.getPosicion().getX();
+                int my = (int) misil.getPosicion().getY();
+                if (misil.esDelJugador()) {
+                    g.setColor(Color.YELLOW);
+                    g.fillRect(mx - 2, my - 12, 4, 16);
+                    g.setColor(new Color(255, 200, 0));
+                    g.fillOval(mx - 3, my - 14, 6, 6);
+                } else {
+                    g.setColor(Color.RED);
+                    g.fillOval(mx - 4, my - 4, 8, 8);
+                }
             }
+        }
+
+        // Explosiones
+        Graphics2D g2 = (Graphics2D) g;
+        for (Explosion exp : juego.getExplosionesRecientes()) {
+            int ex = (int) exp.getEpicentro().getX();
+            int ey = (int) exp.getEpicentro().getY();
+            int radio = (int) exp.getRadioEfecto();
+            g2.setColor(new Color(255, 140, 0, 180));
+            g2.fillOval(ex - radio / 2, ey - radio / 2, radio, radio);
+            g2.setColor(new Color(255, 255, 0, 220));
+            g2.fillOval(ex - radio / 4, ey - radio / 4, radio / 2, radio / 2);
         }
 
         // HUD
