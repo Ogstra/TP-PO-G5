@@ -58,7 +58,13 @@ public class Juego {
 
     // Mueve todos los misiles y procesa detonaciones
     public void procesarCaidaMisiles() {
-        explosionesRecientes.clear();
+        // envejecer explosiones de frames anteriores
+        for (int i = explosionesRecientes.size() - 1; i >= 0; i--) {
+            explosionesRecientes.get(i).envejecer();
+            if (!explosionesRecientes.get(i).estaViva()) {
+                explosionesRecientes.remove(i);
+            }
+        }
         for (int i = misiles.size() - 1; i >= 0; i--) {
             Misil misil = misiles.get(i);
             if (misil.estaDetonado()) {
@@ -68,12 +74,8 @@ public class Juego {
             double velocidad = misil.esDelJugador() ? avion.getVelocidad() * 2 : nivel.getVelocidadMisiles();
             misil.avanzar(velocidad);
 
-            double y = misil.getPosicion().getY();
-            if (y >= Posicion.Y_MAX || y <= Posicion.Y_MIN) {
-                misiles.remove(i);
-                continue;
-            }
-
+            // Intentar detonacion antes de verificar limites,
+            // para que los misiles del jugador exploten al llegar a Y=0
             Explosion explosion = misil.detonar();
             if (explosion != null) {
                 explosionesRecientes.add(explosion);
@@ -82,6 +84,33 @@ public class Juego {
                     aplicarDanioSegunDistancia(distancia);
                 }
                 misiles.remove(i);
+                continue;
+            }
+
+            // Eliminar misiles que salieron de pantalla sin detonar
+            double y = misil.getPosicion().getY();
+            if (y >= Posicion.Y_MAX || y <= Posicion.Y_MIN) {
+                misiles.remove(i);
+            }
+        }
+    }
+
+    // Detecta impactos de misiles del jugador contra drones activos
+    public void procesarColisiones() {
+        if (escuadron == null) return;
+        List<Drone> drones = escuadron.getDronesActivos();
+        for (int i = misiles.size() - 1; i >= 0; i--) {
+            Misil misil = misiles.get(i);
+            if (!misil.esDelJugador() || misil.estaDetonado()) continue;
+            for (int j = drones.size() - 1; j >= 0; j--) {
+                Drone drone = drones.get(j);
+                if (drone.getPosicion().distanciaA(misil.getPosicion()) < 25) {
+                    explosionesRecientes.add(misil.detonarPorColision());
+                    escuadron.destruir(drone);
+                    jugador.sumarPuntos(100);
+                    misiles.remove(i);
+                    break;
+                }
             }
         }
     }

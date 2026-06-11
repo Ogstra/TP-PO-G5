@@ -13,8 +13,9 @@ public class Misil {
         this.esDelJugador = esDelJugador;
     }
 
+    // Metodo reservado para futuros usos; el movimiento ocurre via avanzar()
     public void lanzar() {
-        this.posicion.setY(this.yDetonacion);
+        // no-op: el misil se mueve gradualmente via avanzar(), no se teleporta
     }
 
     // Mueve el misil: sube si es del jugador, baja si es enemigo
@@ -27,10 +28,17 @@ public class Misil {
     }
 
     public boolean verificarDetonacionPorY() {
+        // Misiles del jugador no detonan por altura: solo explotan al chocar un dron
         if (esDelJugador) {
-            return posicion.getY() <= yDetonacion;
+            return false;
         }
         return posicion.getY() >= yDetonacion;
+    }
+
+    // Fuerza la detonacion (usado en colision misil-dron)
+    public Explosion detonarPorColision() {
+        this.detonado = true;
+        return new Explosion(this.posicion, 60, 0);
     }
 
     public boolean esDelJugador() { return esDelJugador; }

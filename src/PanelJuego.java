@@ -75,16 +75,21 @@ public class PanelJuego extends JPanel {
             }
         }
 
-        // Explosiones
+        // Explosiones (animan: crecen y se desvanecen segun framesRestantes)
         Graphics2D g2 = (Graphics2D) g;
         for (Explosion exp : juego.getExplosionesRecientes()) {
             int ex = (int) exp.getEpicentro().getX();
             int ey = (int) exp.getEpicentro().getY();
             int radio = (int) exp.getRadioEfecto();
-            g2.setColor(new Color(255, 140, 0, 180));
-            g2.fillOval(ex - radio / 2, ey - radio / 2, radio, radio);
-            g2.setColor(new Color(255, 255, 0, 220));
-            g2.fillOval(ex - radio / 4, ey - radio / 4, radio / 2, radio / 2);
+            // progreso 0.0 (recien) -> 1.0 (por desaparecer)
+            double progreso = 1.0 - (exp.getFramesRestantes() / 15.0);
+            int tam = (int) (radio * (0.4 + progreso * 0.8));
+            int alpha = (int) (220 * (1.0 - progreso));
+            if (alpha < 0) alpha = 0;
+            g2.setColor(new Color(255, 140, 0, Math.min(180, alpha)));
+            g2.fillOval(ex - tam / 2, ey - tam / 2, tam, tam);
+            g2.setColor(new Color(255, 255, 100, alpha));
+            g2.fillOval(ex - tam / 4, ey - tam / 4, tam / 2, tam / 2);
         }
 
         // HUD
