@@ -1,5 +1,8 @@
 public class Nivel {
     private static final double INCREMENTO_POR_NIVEL = 0.15;
+    // Topes para que el juego siga siendo jugable en niveles altos
+    private static final double VELOCIDAD_MAX = 12.0;
+    private static final double FRECUENCIA_MAX = 0.08;
 
     private int numero;
     private double velocidadBase;
@@ -13,9 +16,9 @@ public class Nivel {
         this.velocidadBase = velocidadBase;
         this.frecuenciaBase = frecuenciaBase;
         double factor = Math.pow(1 + INCREMENTO_POR_NIVEL, numero - 1);
-        this.velocidadDrones = velocidadBase * factor;
-        this.velocidadMisiles = velocidadBase * factor;
-        this.frecuenciaDisparo = frecuenciaBase * factor;
+        this.velocidadDrones = Math.min(velocidadBase * factor, VELOCIDAD_MAX);
+        this.velocidadMisiles = Math.min(velocidadBase * factor, VELOCIDAD_MAX);
+        this.frecuenciaDisparo = Math.min(frecuenciaBase * factor, FRECUENCIA_MAX);
     }
 
     public Nivel siguiente() {
