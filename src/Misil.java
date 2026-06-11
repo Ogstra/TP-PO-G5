@@ -1,58 +1,44 @@
-public class Misil {
-    private String id;
-    private Posicion posicion;
-    private double yDetonacion;
-    private boolean detonado;
-    private boolean esDelJugador;
+// Clase abstracta: generaliza el comportamiento comun de los misiles.
+// No se puede instanciar; se concreta en MisilJugador y MisilEnemigo.
+// El movimiento y la condicion de detonacion por altura son polimorficos.
+public abstract class Misil implements Posicionable {
+    protected String id;
+    protected Posicion posicion;
+    protected double velocidad;
+    protected boolean detonado;
 
-    public Misil(String id, Posicion posicionInicial, double yDetonacion, boolean esDelJugador) {
+    protected Misil(String id, Posicion posicionInicial, double velocidad) {
         this.id = id;
         this.posicion = posicionInicial;
-        this.yDetonacion = yDetonacion;
+        this.velocidad = velocidad;
         this.detonado = false;
-        this.esDelJugador = esDelJugador;
     }
 
-    // Metodo reservado para futuros usos; el movimiento ocurre via avanzar()
-    public void lanzar() {
-        // no-op: el misil se mueve gradualmente via avanzar(), no se teleporta
-    }
+    // Cada subtipo decide su direccion de avance
+    public abstract void avanzar();
 
-    // Mueve el misil: sube si es del jugador, baja si es enemigo
-    public void avanzar(double velocidad) {
-        if (esDelJugador) {
-            this.posicion.setY(this.posicion.getY() - velocidad);
-        } else {
-            this.posicion.setY(this.posicion.getY() + velocidad);
+    // Cada subtipo decide si detona automaticamente por su altura
+    protected abstract boolean alcanzoDetonacion();
+
+    // Indica si el misil daña al avion del jugador (enemigo) o ataca drones (jugador)
+    public abstract boolean esDelJugador();
+
+    // Detonacion automatica por altura. Devuelve null si todavia no corresponde.
+    public Explosion detonar() {
+        if (alcanzoDetonacion()) {
+            this.detonado = true;
+            return new Explosion(this.posicion, 100, 50);
         }
+        return null;
     }
 
-    public boolean verificarDetonacionPorY() {
-        // Misiles del jugador no detonan por altura: solo explotan al chocar un dron
-        if (esDelJugador) {
-            return false;
-        }
-        return posicion.getY() >= yDetonacion;
-    }
-
-    // Fuerza la detonacion (usado en colision misil-dron)
+    // Detonacion forzada por colision (misil del jugador contra un dron)
     public Explosion detonarPorColision() {
         this.detonado = true;
         return new Explosion(this.posicion, 60, 0);
     }
 
-    public boolean esDelJugador() { return esDelJugador; }
-
-    public Explosion detonar() {
-        if (verificarDetonacionPorY()) {
-            this.detonado = true;
-            return new Explosion(this.posicion, 100, 50); // Ejemplo de radio y potencia
-        }
-        return null;
-    }
-
     public boolean estaDetonado() { return detonado; }
     public Posicion getPosicion() { return posicion; }
-    public double getYDetonacion() { return yDetonacion; }
     public String getId() { return id; }
 }

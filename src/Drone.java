@@ -1,4 +1,4 @@
-public class Drone {
+public class Drone implements Posicionable {
     private String id;
     private Posicion posicion;
     private double velocidad;
@@ -21,11 +21,11 @@ public class Drone {
         }
     }
 
-    public Misil lanzarMisil() {
+    public Misil lanzarMisil(double velocidadMisil) {
         double minY = posicion.getY() + 50;
         double maxY = Posicion.Y_MAX - 10;
         double yDetonacion = minY < maxY ? minY + Math.random() * (maxY - minY) : maxY;
-        return new Misil(this.id, new Posicion(posicion.getX(), posicion.getY()), yDetonacion, false);
+        return new MisilEnemigo(this.id, new Posicion(posicion.getX(), posicion.getY()), yDetonacion, velocidadMisil);
     }
 
     public boolean completoRecorrido() {

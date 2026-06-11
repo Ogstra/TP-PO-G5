@@ -1,4 +1,4 @@
-public class Avion {
+public class Avion implements Posicionable {
     private String id;
     private Posicion posicion;
     private double velocidad;
@@ -17,11 +17,8 @@ public class Avion {
     }
 
     public Misil generarMisil() {
-        return new Misil(this.id, new Posicion(posicion.getX(), posicion.getY()), 0, true);
-    }
-
-    public void lanzarMisil(Misil misil) {
-        // no teleportar — el misil sube gradualmente via avanzar()
+        // El misil del jugador viaja al doble de la velocidad del avion
+        return new MisilJugador(this.id, new Posicion(posicion.getX(), posicion.getY()), velocidad * 2);
     }
 
     public void recibirDanio(double danio) {

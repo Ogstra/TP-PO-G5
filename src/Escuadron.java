@@ -44,11 +44,11 @@ public class Escuadron {
         }
     }
 
-    public List<Misil> procesarLanzamientos(double frecuencia) {
+    public List<Misil> procesarLanzamientos(double frecuencia, double velocidadMisil) {
         List<Misil> misils = new ArrayList<>();
         for (Drone drone : dronesActivos) {
             if (drone.puedeLanzar(frecuencia)) {
-                Misil misil = drone.lanzarMisil();
+                Misil misil = drone.lanzarMisil(velocidadMisil);
                 if (misil != null) {
                     misils.add(misil);
                 }
