@@ -32,6 +32,12 @@ public class Avion {
         this.activo = false;
     }
 
+    // Reaparece en el centro del eje X tras perder una vida
+    public void reaparecer() {
+        this.posicion = new Posicion(Posicion.X_MAX / 2, this.posicion.getY());
+        this.activo = true;
+    }
+
     public boolean estaActivo() { return activo; }
     public Posicion getPosicion() { return posicion; }
     public String getId() { return id; }

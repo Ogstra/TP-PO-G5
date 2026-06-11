@@ -118,6 +118,8 @@ public class Juego {
 
     // Aplica dano segun 4 rangos de distancia definidos en el requerimiento
     public void aplicarDanioSegunDistancia(double distancia) {
+        int vidasAntes = jugador.getVidasRestantes();
+
         if (distancia > 150) {
             jugador.sumarPuntos(40);
         } else if (distancia >= 80) {
@@ -127,6 +129,12 @@ public class Juego {
             jugador.recibirDanio(Jugador.VIDA_MAX * 0.4);
         } else {
             jugador.perderVida();
+        }
+
+        // Si perdio una vida y sigue vivo: explota el avion y reaparece en el centro
+        if (jugador.getVidasRestantes() < vidasAntes && jugador.estaVivo()) {
+            explosionesRecientes.add(new Explosion(avion.getPosicion(), 80, 0));
+            avion.reaparecer();
         }
 
         while (jugador.getPuntos() >= proximaVidaExtra) {
