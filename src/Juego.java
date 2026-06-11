@@ -15,15 +15,19 @@ public class Juego {
     }
 
     public void iniciar() {
-        // TODO: preparar estado inicial del juego
+        this.enCurso = true;
     }
 
     public void procesarMovimientoAvion(double dx, double dy) {
-        // TODO: delegar movimiento al avion
+        avion.mover(dx, dy);
     }
 
     public void procesarLanzamientoMisil() {
-        // TODO: pedir al avion que genere y lance un misil, agregarlo a la lista
+        Misil nuevoMisil = avion.generarMisil();
+        if (nuevoMisil != null) {
+            misiles.add(nuevoMisil);
+            avion.lanzarMisil(nuevoMisil);
+        }
     }
 
     public void procesarDetonaciones() {
