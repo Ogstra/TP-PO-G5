@@ -7,6 +7,8 @@ public class Juego {
     private List<Misil> misiles;
     private boolean enCurso;
     private int proximaVidaExtra = 1000;
+    private Escuadron escuadron;
+    private Nivel nivel;
 
     public Juego(Jugador jugador, Avion avion) {
         this.jugador = jugador;
@@ -85,6 +87,36 @@ public class Juego {
 
     public void terminar() {
         this.enCurso = false;
+    }
+
+    // Mueve drones activos y agrega nuevos misiles enemigos a la lista
+    public void procesarEscuadron() {
+        // TODO: llamar escuadron.procesarMovimiento(), luego procesarLanzamientos() y agregar misiles a lista
+    }
+
+    // Mueve todos los misiles enemigos hacia abajo (caen desde drones)
+    public void procesarCaidaMisiles() {
+        // TODO: iterar misiles, llamar avanzar() hacia abajo, detonar si alcanzaron yDetonacion
+    }
+
+    // Aplica daño segun 4 rangos de distancia definidos en el requerimiento
+    public void aplicarDanioSegunDistancia(double distancia) {
+        // TODO:
+        // > 150m  → +40 puntos, sin daño
+        // 80-150m → +20 puntos, -20% energia
+        // 20-80m  → sin puntos, -40% energia
+        // < 20m   → pierde una vida
+    }
+
+    // Avanza al siguiente nivel, suma 300 puntos y recrea el escuadron con mayor velocidad
+    public void avanzarNivel() {
+        // TODO: jugador.sumarPuntos(300), nivel = nivel.siguiente(), crear nuevo Escuadron
+    }
+
+    // Verifica si el escuadron completo su recorrido para avanzar de nivel
+    public boolean nivelCompleto() {
+        // TODO: retornar escuadron.estaCompleto()
+        return false;
     }
 
     public Jugador getJugador() { return jugador; }
