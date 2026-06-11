@@ -16,7 +16,7 @@ public class VentanaJuego {
         ventana.setVisible(true);
         panel.requestFocusInWindow();
 
-        Nivel nivel = new Nivel(1, 3, 0.02);
+        Nivel nivel = new Nivel(1, 3, 0.008);
         juego.setNivel(nivel);
         juego.iniciar();
 

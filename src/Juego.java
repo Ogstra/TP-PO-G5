@@ -107,7 +107,6 @@ public class Juego {
                 if (drone.getPosicion().distanciaA(misil.getPosicion()) < 25) {
                     explosionesRecientes.add(misil.detonarPorColision());
                     escuadron.destruir(drone);
-                    jugador.sumarPuntos(100);
                     misiles.remove(i);
                     break;
                 }
@@ -123,9 +122,9 @@ public class Juego {
             jugador.sumarPuntos(40);
         } else if (distancia >= 80) {
             jugador.sumarPuntos(20);
-            jugador.recibirDanio(jugador.getVida() * 0.2);
+            jugador.recibirDanio(Jugador.VIDA_MAX * 0.2);
         } else if (distancia >= 20) {
-            jugador.recibirDanio(jugador.getVida() * 0.4);
+            jugador.recibirDanio(Jugador.VIDA_MAX * 0.4);
         } else {
             jugador.perderVida();
         }

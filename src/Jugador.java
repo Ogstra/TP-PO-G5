@@ -1,4 +1,6 @@
 public class Jugador {
+    public static final int VIDA_MAX = 100;
+
     private String nombre;
     private int puntos;
     private int vida;
@@ -28,7 +30,7 @@ public class Jugador {
         }
 
         this.vida -= (int) danio;
-        if (this.vida < 0) {
+        if (this.vida <= 0) {
             perderVida();
         }
     }
@@ -36,7 +38,7 @@ public class Jugador {
     public void perderVida() {
         if (vidasRestantes > 0) {
             vidasRestantes--;
-            vida = 100; // Reiniciar vida al perder una vida
+            vida = VIDA_MAX; // Reiniciar energia al perder una vida
         } else {
             vida = 0; // El jugador ha perdido todas las vidas
         }
