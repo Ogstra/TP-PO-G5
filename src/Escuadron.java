@@ -9,31 +9,47 @@ public class Escuadron {
     private List<Drone> dronesActivos = new ArrayList<>();
     private int indiceProximo = 0;
 
-    // Agrega un drone al escuadron (maximo 10)
     public void agregarDrone(Drone drone) {
-        // TODO: agregar drone a la lista si hay lugar
+        if (drones.size() < TOTAL_DRONES) {
+            drones.add(drone);
+        }
     }
 
-    // Lanza el proximo drone si hay menos de MAX_ACTIVOS activos
     public void activarProximoDrone() {
-        // TODO: sacar siguiente drone de la lista y agregarlo a dronesActivos si hay lugar
+        if (dronesActivos.size() < MAX_ACTIVOS && indiceProximo < drones.size()) {
+            Drone proximo = drones.get(indiceProximo);
+            proximo.activar();
+            dronesActivos.add(proximo);
+            indiceProximo++;
+        }
     }
 
-    // Mueve todos los drones activos
     public void procesarMovimiento() {
-        // TODO: llamar mover() en cada drone activo, desactivar los que completaron recorrido
+        for (int i = dronesActivos.size() - 1; i >= 0; i--) {
+            Drone drone = dronesActivos.get(i);
+            drone.mover();
+            if (drone.completoRecorrido()) {
+                drone.desactivar();
+                dronesActivos.remove(i);
+            }
+        }
     }
 
-    // Cada drone activo intenta lanzar un misil segun frecuencia de disparo
     public List<Misil> procesarLanzamientos(double frecuencia) {
-        // TODO: iterar drones activos, con probabilidad `frecuencia` cada uno lanza un misil
-        return new ArrayList<>();
+        List<Misil> misils = new ArrayList<>();
+        for (Drone drone : dronesActivos) {
+            if (drone.puedeLanzar(frecuencia)) {
+                Misil misil = drone.lanzarMisil();
+                if (misil != null) {
+                    misils.add(misil);
+                }
+            }
+        }
+        return misils;
     }
 
-    // Retorna true si todos los drones del escuadron completaron su recorrido
     public boolean estaCompleto() {
-        // TODO: retornar true si indiceProximo >= TOTAL_DRONES y dronesActivos esta vacio
-        return false;
+        return indiceProximo >= drones.size() && dronesActivos.isEmpty();
     }
 
     public List<Drone> getDronesActivos() { return dronesActivos; }

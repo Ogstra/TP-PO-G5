@@ -13,26 +13,37 @@ public class Drone {
         this.moviendoseADerecha = moviendoseADerecha;
     }
 
-    // Mueve el drone horizontalmente segun su direccion
     public void mover() {
-        // TODO: desplazar posicion X segun velocidad y direccion
+        if (moviendoseADerecha) {
+            posicion.setX(posicion.getX() + velocidad);
+        } else {
+            posicion.setX(posicion.getX() - velocidad);
+        }
     }
 
-    // Genera un misil en la posicion actual del drone con altitud de detonacion aleatoria
     public Misil lanzarMisil() {
-        // TODO: crear Misil con posicion actual y yDetonacion aleatoria entre 1200 y 4500 (mapeado a pixeles)
-        return null;
+        double yDetonacion = Math.random() * (Posicion.Y_MAX - Posicion.Y_MIN) + Posicion.Y_MIN;
+        return new Misil(this.id, new Posicion(posicion.getX(), posicion.getY()), yDetonacion);
     }
 
-    // Verifica si el drone llego al extremo opuesto de la pantalla
     public boolean completoRecorrido() {
-        // TODO: retornar true si salio del rango X de la pantalla
-        return false;
+        if  (moviendoseADerecha) {
+            return posicion.getX() >= Posicion.X_MAX;
+        } else {
+            return posicion.getX() <= Posicion.X_MIN;
+        }
+    }
+
+    public void activar() { this.activo = true; }
+    public void desactivar() { this.activo = false; }
+
+    // Retorna true con probabilidad `frecuencia` (0.0 a 1.0)
+    public boolean puedeLanzar(double frecuencia) {
+        return Math.random() < frecuencia;
     }
 
     public boolean estaActivo() { return activo; }
     public Posicion getPosicion() { return posicion; }
     public double getVelocidad() { return velocidad; }
     public String getId() { return id; }
-    public void desactivar() { this.activo = false; }
 }
