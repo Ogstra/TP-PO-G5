@@ -9,40 +9,20 @@ public class ControlJugador {
         this.scanner = new Scanner(System.in);
     }
 
-    // Lee la tecla/comando ingresado y lo procesa
-    // Retorna false si el jugador eligio salir
+    // Lee el comando ingresado y lo procesa. Retorna false si el jugador eligio salir
     public boolean procesarEntrada() {
-        // TODO: leer input del scanner y llamar al metodo correspondiente
-        return false;
-    }
+        String comando = scanner.nextLine().trim().toUpperCase();
 
-    // Mueve el avion a la izquierda (dx negativo)
-    private void moverIzquierda() {
-        // TODO: llamar juego.procesarMovimientoAvion con dx negativo y dy 0
-    }
+        switch (comando) {
+            case "W": juego.procesarMovimientoAvion(0, 1); break;
+            case "A": juego.procesarMovimientoAvion(-1, 0); break;
+            case "S": juego.procesarMovimientoAvion(0, -1); break;
+            case "D": juego.procesarMovimientoAvion(1, 0); break;
+            case "M": juego.procesarLanzamientoMisil(); break;
+            case "P": return false;
+            default: break;
+        }
 
-    // Mueve el avion a la derecha (dx positivo)
-    private void moverDerecha() {
-        // TODO: llamar juego.procesarMovimientoAvion con dx positivo y dy 0
-    }
-
-    // Mueve el avion hacia arriba (dy positivo)
-    private void moverArriba() {
-        // TODO: llamar juego.procesarMovimientoAvion con dx 0 y dy positivo
-    }
-
-    // Mueve el avion hacia abajo (dy negativo)
-    private void moverAbajo() {
-        // TODO: llamar juego.procesarMovimientoAvion con dx 0 y dy negativo
-    }
-
-    // Lanza un misil desde la posicion actual del avion
-    private void lanzarMisil() {
-        // TODO: llamar juego.procesarLanzamientoMisil()
-    }
-
-    // Muestra en pantalla las opciones disponibles al jugador
-    public void mostrarOpciones() {
-        // TODO: imprimir las teclas/comandos validos con su descripcion
+        return true;
     }
 }
