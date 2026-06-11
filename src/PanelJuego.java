@@ -17,12 +17,33 @@ public class PanelJuego extends JPanel {
         // Avion
         Avion avion = juego.getAvion();
         if (avion.estaActivo()) {
+            int ax = (int) avion.getPosicion().getX();
+            int ay = (int) avion.getPosicion().getY();
+
+            // Alas
+            g.setColor(new Color(0, 180, 200));
+            g.fillPolygon(
+                new int[]{ax - 5, ax - 24, ax - 10, ax},
+                new int[]{ay, ay + 8, ay + 10, ay + 2},
+                4
+            );
+            g.fillPolygon(
+                new int[]{ax + 5, ax + 24, ax + 10, ax},
+                new int[]{ay, ay + 8, ay + 10, ay + 2},
+                4
+            );
+
+            // Cuerpo
             g.setColor(Color.CYAN);
             g.fillPolygon(
-                new int[]{(int) avion.getPosicion().getX(), (int) avion.getPosicion().getX() - 15, (int) avion.getPosicion().getX() + 15},
-                new int[]{(int) avion.getPosicion().getY() - 20, (int) avion.getPosicion().getY() + 10, (int) avion.getPosicion().getY() + 10},
-                3
+                new int[]{ax, ax - 8, ax - 5, ax + 5, ax + 8},
+                new int[]{ay - 22, ay + 10, ay + 6, ay + 6, ay + 10},
+                5
             );
+
+            // Motor
+            g.setColor(Color.ORANGE);
+            g.fillRect(ax - 3, ay + 6, 6, 6);
         }
 
         // Misiles

@@ -28,10 +28,11 @@ public class ControlJugador {
     }
 
     public void procesarMovimientoContinuo() {
-        if (teclasPresionadas.contains(KeyEvent.VK_W)) juego.procesarMovimientoAvion(0, -1);
-        if (teclasPresionadas.contains(KeyEvent.VK_S)) juego.procesarMovimientoAvion(0, 1);
-        if (teclasPresionadas.contains(KeyEvent.VK_A)) juego.procesarMovimientoAvion(-1, 0);
-        if (teclasPresionadas.contains(KeyEvent.VK_D)) juego.procesarMovimientoAvion(1, 0);
+        double vel = juego.getAvion().getVelocidad();
+        if (teclasPresionadas.contains(KeyEvent.VK_W)) juego.procesarMovimientoAvion(0, -vel);
+        if (teclasPresionadas.contains(KeyEvent.VK_S)) juego.procesarMovimientoAvion(0, vel);
+        if (teclasPresionadas.contains(KeyEvent.VK_A)) juego.procesarMovimientoAvion(-vel, 0);
+        if (teclasPresionadas.contains(KeyEvent.VK_D)) juego.procesarMovimientoAvion(vel, 0);
     }
 
     public boolean quiereSalir() {
