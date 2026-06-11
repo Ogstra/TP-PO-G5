@@ -40,7 +40,7 @@ public class Juego {
 
                 Explosion explosion = misil.detonar();
 
-                if(explosion != null) {
+                if (explosion != null) {
                     aplicarDanioExplosion(explosion);
                     actualizarPuntosYVida(explosion);
 
@@ -51,30 +51,74 @@ public class Juego {
             }
         }
 
-        if(!debeContinuar()) {
+        if (!debeContinuar()) {
             terminar();
         }
     }
 
     public void aplicarDanioExplosion(Explosion explosion) {
-        // TODO: calcular danio al avion y al jugador segun distancia a explosion
+        double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
+
+        if (distancia > 150) {
+            return;
+        }
+
+        if (distancia >= 80 && distancia <= 150) {
+            jugador.recibirDanio(20);
+        } else if (distancia >= 20 && distancia < 80) {
+            jugador.recibirDanio(40);
+        } else {
+            jugador.perderVida();
+        }
+
+        if (!jugador.estaVivo()) {
+            avion.recibirDanio(100);
+            enCurso = false;
+        }
     }
 
     public void actualizarPuntosYVida(Explosion explosion) {
-        // TODO: sumar/restar puntos y vida en base a resultado de explosion
+        double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
+
+        if (distancia > 150) {
+            jugador.sumarPuntos(40);
+        } else if (distancia >= 80 && distancia <= 150) {
+            jugador.sumarPuntos(20);
+        }
+
+        while (jugador.getPuntos() >= proximaVidaExtra) {
+            jugador.ganarVidaExtra();
+            proximaVidaExtra += 1000;
+        }
     }
 
     public boolean debeContinuar() {
-        // TODO: retornar true si jugador sigue vivo y tiene puntos suficientes
-        return false;
+        return enCurso && jugador.estaVivo() && avion.estaActivo();
     }
 
     public void terminar() {
-        // TODO: finalizar el juego y mostrar resultado
+        enCurso = false;
+
+        System.out.println("Juego finalizado.");
+        System.out.println("Jugador: " + jugador.getNombre());
+        System.out.println("Puntos obtenidos: " + jugador.getPuntos());
+        System.out.println("Vida actual: " + jugador.getVida());
+        System.out.println("Vidas restantes: " + jugador.getVidasRestantes());
     }
 
-    public Jugador getJugador() { return jugador; }
-    public Avion getAvion() { return avion; }
-    public List<Misil> getMisiles() { return misiles; }
-    public boolean isEnCurso() { return enCurso; }
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public Avion getAvion() {
+        return avion;
+    }
+
+    public List<Misil> getMisiles() {
+        return misiles;
+    }
+
+    public boolean isEnCurso() {
+        return enCurso;
+    }
 }
