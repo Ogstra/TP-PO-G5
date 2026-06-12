@@ -91,11 +91,15 @@ public class Juego {
         if (escuadron == null) return;
         List<Drone> drones = escuadron.getDronesActivos();
 
-        // Contacto avion-dron
+        // Contacto avion-dron: destruye el dron pero le cuesta una vida al jugador
         for (Drone drone : drones) {
             if (avion.getPosicion().distanciaA(drone.getPosicion()) < 25) {
                 drone.recibirDanio(1);
                 explosionesRecientes.add(new Explosion(drone.getPosicion(), 60));
+                int vidasAntes = jugador.getVidasRestantes();
+                jugador.perderVida();
+                manejarPerdidaDeVida(vidasAntes);
+                break; // un choque por frame basta
             }
         }
 
@@ -111,6 +115,14 @@ public class Juego {
                     break;
                 }
             }
+        }
+    }
+
+    // Si el jugador perdio una vida y sigue vivo, el avion explota y reaparece
+    private void manejarPerdidaDeVida(int vidasAntes) {
+        if (jugador.getVidasRestantes() < vidasAntes && jugador.estaVivo()) {
+            explosionesRecientes.add(new Explosion(avion.getPosicion(), 80));
+            avion.reaparecer();
         }
     }
 
@@ -131,11 +143,7 @@ public class Juego {
             jugador.perderVida();
         }
 
-        // Si perdio una vida y sigue vivo: explota el avion y reaparece en el centro
-        if (jugador.getVidasRestantes() < vidasAntes && jugador.estaVivo()) {
-            explosionesRecientes.add(new Explosion(avion.getPosicion(), 80));
-            avion.reaparecer();
-        }
+        manejarPerdidaDeVida(vidasAntes);
 
         while (jugador.getPuntos() >= proximaVidaExtra) {
             jugador.ganarVidaExtra();
