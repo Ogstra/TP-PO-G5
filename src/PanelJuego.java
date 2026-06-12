@@ -16,35 +16,33 @@ public class PanelJuego extends JPanel {
 
         // Avion
         Avion avion = juego.getAvion();
-        if (avion.estaActivo()) {
-            int ax = (int) avion.getPosicion().getX();
-            int ay = (int) avion.getPosicion().getY();
+        int ax = (int) avion.getPosicion().getX();
+        int ay = (int) avion.getPosicion().getY();
 
-            // Alas
-            g.setColor(new Color(0, 180, 200));
-            g.fillPolygon(
-                new int[]{ax - 5, ax - 24, ax - 10, ax},
-                new int[]{ay, ay + 8, ay + 10, ay + 2},
-                4
-            );
-            g.fillPolygon(
-                new int[]{ax + 5, ax + 24, ax + 10, ax},
-                new int[]{ay, ay + 8, ay + 10, ay + 2},
-                4
-            );
+        // Alas
+        g.setColor(new Color(0, 180, 200));
+        g.fillPolygon(
+            new int[]{ax - 5, ax - 24, ax - 10, ax},
+            new int[]{ay, ay + 8, ay + 10, ay + 2},
+            4
+        );
+        g.fillPolygon(
+            new int[]{ax + 5, ax + 24, ax + 10, ax},
+            new int[]{ay, ay + 8, ay + 10, ay + 2},
+            4
+        );
 
-            // Cuerpo
-            g.setColor(Color.CYAN);
-            g.fillPolygon(
-                new int[]{ax, ax - 8, ax - 5, ax + 5, ax + 8},
-                new int[]{ay - 22, ay + 10, ay + 6, ay + 6, ay + 10},
-                5
-            );
+        // Cuerpo
+        g.setColor(Color.CYAN);
+        g.fillPolygon(
+            new int[]{ax, ax - 8, ax - 5, ax + 5, ax + 8},
+            new int[]{ay - 22, ay + 10, ay + 6, ay + 6, ay + 10},
+            5
+        );
 
-            // Motor
-            g.setColor(Color.ORANGE);
-            g.fillRect(ax - 3, ay + 6, 6, 6);
-        }
+        // Motor
+        g.setColor(Color.ORANGE);
+        g.fillRect(ax - 3, ay + 6, 6, 6);
 
         // Drones
         g.setColor(Color.GREEN);
@@ -58,7 +56,7 @@ public class PanelJuego extends JPanel {
             );
         }
 
-        // Misiles
+        // Misiles: amarillo alargado los del jugador (suben), rojo los enemigos (caen)
         for (Misil misil : juego.getMisiles()) {
             if (!misil.estaDetonado()) {
                 int mx = (int) misil.getPosicion().getX();
@@ -66,8 +64,6 @@ public class PanelJuego extends JPanel {
                 if (misil.esDelJugador()) {
                     g.setColor(Color.YELLOW);
                     g.fillRect(mx - 2, my - 12, 4, 16);
-                    g.setColor(new Color(255, 200, 0));
-                    g.fillOval(mx - 3, my - 14, 6, 6);
                 } else {
                     g.setColor(Color.RED);
                     g.fillOval(mx - 4, my - 4, 8, 8);

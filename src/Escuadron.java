@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// Escuadron de 10 drones que cruzan la pantalla. Nunca mas de 4 activos a la vez.
 public class Escuadron {
-    private static final int TOTAL_DRONES = 20;
-    private static final int MAX_ACTIVOS = 10;
+    private static final int TOTAL_DRONES = 10;
+    private static final int MAX_ACTIVOS = 4;
 
     private List<Drone> drones = new ArrayList<>();
     private List<Drone> dronesActivos = new ArrayList<>();
@@ -18,17 +19,9 @@ public class Escuadron {
         }
     }
 
-    public void agregarDrone(Drone drone) {
-        if (drones.size() < TOTAL_DRONES) {
-            drones.add(drone);
-        }
-    }
-
     public void activarProximoDrone() {
         if (dronesActivos.size() < MAX_ACTIVOS && indiceProximo < drones.size()) {
-            Drone proximo = drones.get(indiceProximo);
-            proximo.activar();
-            dronesActivos.add(proximo);
+            dronesActivos.add(drones.get(indiceProximo));
             indiceProximo++;
         }
     }
@@ -37,30 +30,20 @@ public class Escuadron {
         for (int i = dronesActivos.size() - 1; i >= 0; i--) {
             Drone drone = dronesActivos.get(i);
             drone.mover();
-            if (drone.completoRecorrido()) {
-                drone.desactivar();
+            if (drone.completoRecorrido() || !drone.estaVivo()) {
                 dronesActivos.remove(i);
             }
         }
     }
 
     public List<Misil> procesarLanzamientos(double frecuencia, double velocidadMisil) {
-        List<Misil> misils = new ArrayList<>();
+        List<Misil> nuevos = new ArrayList<>();
         for (Drone drone : dronesActivos) {
             if (drone.puedeLanzar(frecuencia)) {
-                Misil misil = drone.lanzarMisil(velocidadMisil);
-                if (misil != null) {
-                    misils.add(misil);
-                }
+                nuevos.add(drone.lanzarMisil(velocidadMisil));
             }
         }
-        return misils;
-    }
-
-    // Destruye un dron impactado por un misil del jugador
-    public void destruir(Drone drone) {
-        drone.desactivar();
-        dronesActivos.remove(drone);
+        return nuevos;
     }
 
     public boolean estaCompleto() {
@@ -68,5 +51,4 @@ public class Escuadron {
     }
 
     public List<Drone> getDronesActivos() { return dronesActivos; }
-    public int cantidadActivos() { return dronesActivos.size(); }
 }

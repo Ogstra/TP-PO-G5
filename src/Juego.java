@@ -27,14 +27,11 @@ public class Juego {
     }
 
     public void procesarLanzamientoMisil() {
-        Misil nuevoMisil = avion.generarMisil();
-        if (nuevoMisil != null) {
-            misiles.add(nuevoMisil);
-        }
+        misiles.add(avion.generarMisil());
     }
 
     public boolean debeContinuar() {
-        return enCurso && jugador.estaVivo() && avion.estaActivo();
+        return enCurso && jugador.estaVivo();
     }
 
     public void terminar() {
@@ -55,7 +52,7 @@ public class Juego {
         misiles.addAll(nuevos);
     }
 
-    // Mueve todos los misiles y procesa detonaciones
+    // Mueve los misiles enemigos, los detona al alcanzar su altitud y aplica dano
     public void procesarCaidaMisiles() {
         // envejecer explosiones de frames anteriores
         for (int i = explosionesRecientes.size() - 1; i >= 0; i--) {
@@ -70,9 +67,8 @@ public class Juego {
                 misiles.remove(i);
                 continue;
             }
-            misil.mover(); // cada subtipo conoce su direccion y velocidad
+            misil.mover();
 
-            // Solo los misiles enemigos detonan por altura (los del jugador devuelven null)
             Explosion explosion = misil.detonar();
             if (explosion != null) {
                 explosionesRecientes.add(explosion);
@@ -90,18 +86,27 @@ public class Juego {
         }
     }
 
-    // Detecta impactos de misiles del jugador contra drones activos
+    // Los drones mueren por contacto con el avion o por impacto de un misil del jugador
     public void procesarColisiones() {
         if (escuadron == null) return;
         List<Drone> drones = escuadron.getDronesActivos();
+
+        // Contacto avion-dron
+        for (Drone drone : drones) {
+            if (avion.getPosicion().distanciaA(drone.getPosicion()) < 25) {
+                drone.recibirDanio(1);
+                explosionesRecientes.add(new Explosion(drone.getPosicion(), 60));
+            }
+        }
+
+        // Misiles del jugador contra drones
         for (int i = misiles.size() - 1; i >= 0; i--) {
             Misil misil = misiles.get(i);
             if (!misil.esDelJugador() || misil.estaDetonado()) continue;
-            for (int j = drones.size() - 1; j >= 0; j--) {
-                Drone drone = drones.get(j);
+            for (Drone drone : drones) {
                 if (drone.getPosicion().distanciaA(misil.getPosicion()) < 25) {
+                    drone.recibirDanio(1);
                     explosionesRecientes.add(misil.detonarPorColision());
-                    escuadron.destruir(drone);
                     misiles.remove(i);
                     break;
                 }
@@ -119,16 +124,16 @@ public class Juego {
             jugador.sumarPuntos(40);
         } else if (distancia >= 80) {
             jugador.sumarPuntos(20);
-            jugador.recibirDanio("energia", Jugador.VIDA_MAX * 0.2);
+            jugador.recibirDanio(Jugador.VIDA_MAX * 0.2);
         } else if (distancia >= 20) {
-            jugador.recibirDanio("energia", Jugador.VIDA_MAX * 0.4);
+            jugador.recibirDanio(Jugador.VIDA_MAX * 0.4);
         } else {
             jugador.perderVida();
         }
 
         // Si perdio una vida y sigue vivo: explota el avion y reaparece en el centro
         if (jugador.getVidasRestantes() < vidasAntes && jugador.estaVivo()) {
-            explosionesRecientes.add(new Explosion(avion.getPosicion(), 80, 0));
+            explosionesRecientes.add(new Explosion(avion.getPosicion(), 80));
             avion.reaparecer();
         }
 

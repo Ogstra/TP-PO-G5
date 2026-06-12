@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 
+// Captura el teclado: WASD mueve el avion, M dispara, P sale.
 public class ControlJugador {
     private Juego juego;
     private Set<Integer> teclasPresionadas = new HashSet<>();

@@ -1,15 +1,13 @@
-// Clase abstracta: misil generico. Es una EntidadVoladora; concreta su
-// movimiento y condicion de detonacion en MisilJugador y MisilEnemigo.
-public abstract class Misil extends EntidadVoladora {
+// Clase abstracta: misil generico. Es una EntidadVoladora que se desplaza sola
+// (Movible). Concreta su direccion y su condicion de detonacion en las
+// subclases MisilEnemigo (cae, daña al jugador) y MisilJugador (sube, mata drones).
+public abstract class Misil extends EntidadVoladora implements Movible {
     protected boolean detonado;
 
     protected Misil(String id, Posicion posicionInicial, double velocidad) {
         super(id, posicionInicial, velocidad);
         this.detonado = false;
     }
-
-    // Cada subtipo define su direccion de movimiento
-    public abstract void mover();
 
     // Cada subtipo decide si detona automaticamente por su altura
     protected abstract boolean alcanzoDetonacion();
@@ -21,7 +19,7 @@ public abstract class Misil extends EntidadVoladora {
     public Explosion detonar() {
         if (alcanzoDetonacion()) {
             this.detonado = true;
-            return new Explosion(this.posicion, 100, 50);
+            return new Explosion(this.posicion, 100);
         }
         return null;
     }
@@ -29,7 +27,7 @@ public abstract class Misil extends EntidadVoladora {
     // Detonacion forzada por colision (misil del jugador contra un dron)
     public Explosion detonarPorColision() {
         this.detonado = true;
-        return new Explosion(this.posicion, 60, 0);
+        return new Explosion(this.posicion, 60);
     }
 
     public boolean estaDetonado() { return detonado; }

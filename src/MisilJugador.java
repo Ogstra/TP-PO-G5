@@ -1,5 +1,5 @@
 // Misil disparado por el avion: asciende y solo explota al impactar un dron
-// (no detona por altura). Se descarta en silencio si sale por el borde superior.
+// (no detona por altura). Se descarta si sale por el borde superior.
 public class MisilJugador extends Misil {
 
     public MisilJugador(String id, Posicion posicionInicial, double velocidad) {
@@ -8,7 +8,7 @@ public class MisilJugador extends Misil {
 
     @Override
     public void mover() {
-        posicion.setY(posicion.getY() - velocidad); // sube (Y disminuye en pantalla)
+        posicion.setY(posicion.getY() - velocidad); // sube
     }
 
     @Override
