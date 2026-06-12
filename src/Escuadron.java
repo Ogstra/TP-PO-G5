@@ -13,9 +13,10 @@ public class Escuadron {
     public Escuadron(double velocidad) {
         for (int i = 0; i < TOTAL_DRONES; i++) {
             boolean derecha = Math.random() < 0.5;
+            Direccion dir = derecha ? Direccion.DERECHA : Direccion.IZQUIERDA;
             double x = derecha ? Posicion.X_MIN : Posicion.X_MAX;
             double y = Math.random() * (Posicion.Y_MAX / 3);
-            drones.add(new Drone("D" + i, new Posicion(x, y), velocidad, derecha));
+            drones.add(new Drone("D" + i, new Posicion(x, y), velocidad, dir));
         }
     }
 
@@ -29,7 +30,7 @@ public class Escuadron {
     public void procesarMovimiento() {
         for (int i = dronesActivos.size() - 1; i >= 0; i--) {
             Drone drone = dronesActivos.get(i);
-            drone.mover();
+            drone.mover(drone.getDireccion());
             if (drone.completoRecorrido() || !drone.estaVivo()) {
                 dronesActivos.remove(i);
             }

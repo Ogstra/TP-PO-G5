@@ -22,8 +22,8 @@ public class Juego {
         this.enCurso = true;
     }
 
-    public void procesarMovimientoAvion(double dx, double dy) {
-        avion.mover(dx, dy);
+    public void procesarMovimientoAvion(Direccion direccion) {
+        avion.mover(direccion);
     }
 
     public boolean debeContinuar() {
@@ -56,7 +56,7 @@ public class Juego {
                 misiles.remove(i);
                 continue;
             }
-            misil.mover();
+            misil.mover(Direccion.ABAJO);
 
             Explosion explosion = misil.detonar();
             if (explosion != null) {
