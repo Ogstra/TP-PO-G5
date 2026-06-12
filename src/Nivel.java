@@ -25,7 +25,6 @@ public class Nivel {
         return new Nivel(numero + 1, velocidadBase, frecuenciaBase);
     }
 
-    public int getNumero() { return numero; }
     public double getVelocidadDrones() { return velocidadDrones; }
     public double getVelocidadMisiles() { return velocidadMisiles; }
     public double getFrecuenciaDisparo() { return frecuenciaDisparo; }
