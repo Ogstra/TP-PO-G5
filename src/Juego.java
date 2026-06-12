@@ -26,13 +26,6 @@ public class Juego {
         avion.mover(dx, dy);
     }
 
-    public void procesarLanzamientoMisil() {
-        Misil nuevoMisil = avion.generarMisil();
-        if (nuevoMisil != null) {
-            misiles.add(nuevoMisil);
-        }
-    }
-
     public boolean debeContinuar() {
         return enCurso && jugador.estaVivo() && avion.estaActivo();
     }
@@ -55,7 +48,7 @@ public class Juego {
         misiles.addAll(nuevos);
     }
 
-    // Mueve todos los misiles y procesa detonaciones
+    // Mueve los misiles enemigos, los detona al alcanzar su altitud y aplica dano
     public void procesarCaidaMisiles() {
         // envejecer explosiones de frames anteriores
         for (int i = explosionesRecientes.size() - 1; i >= 0; i--) {
@@ -70,9 +63,8 @@ public class Juego {
                 misiles.remove(i);
                 continue;
             }
-            misil.mover(); // cada subtipo conoce su direccion y velocidad
+            misil.mover();
 
-            // Solo los misiles enemigos detonan por altura (los del jugador devuelven null)
             Explosion explosion = misil.detonar();
             if (explosion != null) {
                 explosionesRecientes.add(explosion);
@@ -86,25 +78,6 @@ public class Juego {
             double y = misil.getPosicion().getY();
             if (y >= Posicion.Y_MAX || y <= Posicion.Y_MIN) {
                 misiles.remove(i);
-            }
-        }
-    }
-
-    // Detecta impactos de misiles del jugador contra drones activos
-    public void procesarColisiones() {
-        if (escuadron == null) return;
-        List<Drone> drones = escuadron.getDronesActivos();
-        for (int i = misiles.size() - 1; i >= 0; i--) {
-            Misil misil = misiles.get(i);
-            if (!misil.esDelJugador() || misil.estaDetonado()) continue;
-            for (int j = drones.size() - 1; j >= 0; j--) {
-                Drone drone = drones.get(j);
-                if (drone.getPosicion().distanciaA(misil.getPosicion()) < 25) {
-                    explosionesRecientes.add(misil.detonarPorColision());
-                    escuadron.destruir(drone);
-                    misiles.remove(i);
-                    break;
-                }
             }
         }
     }

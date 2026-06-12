@@ -1,33 +1,33 @@
-// Clase abstracta: misil generico. Es una EntidadVoladora; concreta su
-// movimiento y condicion de detonacion en MisilJugador y MisilEnemigo.
-public abstract class Misil extends EntidadVoladora {
-    protected boolean detonado;
+// Misil lanzado por un dron. Es una EntidadVoladora que desciende en linea
+// recta y detona automaticamente al alcanzar su altitud de detonacion.
+public class Misil extends EntidadVoladora {
+    private double yDetonacion;
+    private boolean detonado;
 
-    protected Misil(String id, Posicion posicionInicial, double velocidad) {
+    public Misil(String id, Posicion posicionInicial, double yDetonacion, double velocidad) {
         super(id, posicionInicial, velocidad);
+        this.yDetonacion = yDetonacion;
         this.detonado = false;
     }
 
-    // Cada subtipo decide si detona automaticamente por su altura
-    protected abstract boolean alcanzoDetonacion();
+    @Override
+    public void mover() {
+        posicion.setY(posicion.getY() + velocidad); // desciende (Y aumenta en pantalla)
+    }
 
-    // Indica si el misil ataca drones (jugador) o daña al avion (enemigo)
-    public abstract boolean esDelJugador();
+    public boolean debeDetonar() {
+        return posicion.getY() >= yDetonacion;
+    }
 
-    // Detonacion automatica por altura. Devuelve null si todavia no corresponde.
+    // Detona si alcanzo su altitud. Devuelve la explosion o null si todavia no.
     public Explosion detonar() {
-        if (alcanzoDetonacion()) {
+        if (debeDetonar()) {
             this.detonado = true;
             return new Explosion(this.posicion, 100, 50);
         }
         return null;
     }
 
-    // Detonacion forzada por colision (misil del jugador contra un dron)
-    public Explosion detonarPorColision() {
-        this.detonado = true;
-        return new Explosion(this.posicion, 60, 0);
-    }
-
     public boolean estaDetonado() { return detonado; }
+    public double getYDetonacion() { return yDetonacion; }
 }
