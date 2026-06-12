@@ -82,7 +82,7 @@ public class Juego {
         }
     }
 
-    // El avion destruye por contacto a los drones, pero el choque le cuesta una vida
+    // El avion destruye por contacto a los drones, pero el choque le cuesta 33% de energia
     public void procesarColisiones() {
         if (escuadron == null) return;
         for (Drone drone : escuadron.getDronesActivos()) {
