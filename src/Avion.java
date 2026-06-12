@@ -8,16 +8,9 @@ public class Avion extends EntidadVoladora {
         this.activo = true;
     }
 
-    // Movimiento controlado por el jugador (izq/der y altitud)
     public void mover(double dx, double dy) {
         this.posicion.setX(this.posicion.getX() + dx);
         this.posicion.setY(this.posicion.getY() + dy);
-    }
-
-    // mover() de EntidadVoladora: el avion se mueve por input, no automatico
-    @Override
-    public void mover() {
-        // no-op: el desplazamiento real ocurre en mover(dx, dy)
     }
 
     // Reaparece en el centro del eje X tras perder una vida

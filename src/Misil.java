@@ -10,7 +10,6 @@ public class Misil extends EntidadVoladora {
         this.detonado = false;
     }
 
-    @Override
     public void mover() {
         posicion.setY(posicion.getY() + velocidad); // desciende (Y aumenta en pantalla)
     }
