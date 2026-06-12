@@ -90,7 +90,7 @@ public class Juego {
                 drone.recibirDanio(1);
                 explosionesRecientes.add(new Explosion(drone.getPosicion(), 60));
                 int vidasAntes = jugador.getVidasRestantes();
-                jugador.perderVida();
+                jugador.recibirDanio(Jugador.VIDA_MAX * 0.33); // el choque cuesta 33% de energia
                 manejarPerdidaDeVida(vidasAntes);
                 break; // un choque por frame basta
             }
