@@ -30,11 +30,10 @@ public class ControlJugador {
     }
 
     public void procesarMovimientoContinuo() {
-        double vel = juego.getAvion().getVelocidad();
-        if (teclasPresionadas.contains(KeyEvent.VK_W)) juego.procesarMovimientoAvion(0, -vel);
-        if (teclasPresionadas.contains(KeyEvent.VK_S)) juego.procesarMovimientoAvion(0, vel);
-        if (teclasPresionadas.contains(KeyEvent.VK_A)) juego.procesarMovimientoAvion(-vel, 0);
-        if (teclasPresionadas.contains(KeyEvent.VK_D)) juego.procesarMovimientoAvion(vel, 0);
+        if (teclasPresionadas.contains(KeyEvent.VK_W)) juego.procesarMovimientoAvion(Direccion.ARRIBA);
+        if (teclasPresionadas.contains(KeyEvent.VK_S)) juego.procesarMovimientoAvion(Direccion.ABAJO);
+        if (teclasPresionadas.contains(KeyEvent.VK_A)) juego.procesarMovimientoAvion(Direccion.IZQUIERDA);
+        if (teclasPresionadas.contains(KeyEvent.VK_D)) juego.procesarMovimientoAvion(Direccion.DERECHA);
     }
 
     // Consume el disparo pendiente. Retorna true una sola vez por presion de M

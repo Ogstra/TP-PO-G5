@@ -1,14 +1,9 @@
-// Avion controlado por el jugador. Es una EntidadVoladora que se desplaza por
-// input y puede disparar misiles hacia arriba.
+// Avion del jugador. Usa el mover(Direccion) por defecto de EntidadVoladora:
+// puede desplazarse en las cuatro direcciones. Ademas dispara misiles.
 public class Avion extends EntidadVoladora {
 
     public Avion(String id, Posicion posicion, double velocidad) {
         super(id, posicion, velocidad);
-    }
-
-    public void mover(double dx, double dy) {
-        this.posicion.setX(this.posicion.getX() + dx);
-        this.posicion.setY(this.posicion.getY() + dy);
     }
 
     public Misil generarMisil() {

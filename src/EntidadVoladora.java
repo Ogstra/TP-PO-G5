@@ -1,8 +1,8 @@
-// Clase abstracta: generaliza el estado comun de toda entidad que se desplaza
-// por el espacio aereo (avion, drones, misiles). No se puede instanciar.
-// Reemplaza a la antigua interfaz Posicionable: ahora la posicion es estado
-// compartido por herencia.
-public abstract class EntidadVoladora {
+// Clase abstracta: estado comun de toda entidad del espacio aereo.
+// Implementa Movible con un movimiento por defecto en cualquier direccion;
+// las subclases que lo necesiten lo redefinen para restringir direcciones
+// (el dron solo horizontal, el misil solo vertical). El avion usa el default.
+public abstract class EntidadVoladora implements Movible {
     protected String id;
     protected Posicion posicion;
     protected double velocidad;
@@ -13,8 +13,15 @@ public abstract class EntidadVoladora {
         this.velocidad = velocidad;
     }
 
-    // El movimiento lo define cada entidad con la firma que le corresponde
-    // (el avion necesita direccion; drones y misiles se mueven solos).
+    @Override
+    public void mover(Direccion direccion) {
+        switch (direccion) {
+            case ARRIBA:    posicion.setY(posicion.getY() - velocidad); break;
+            case ABAJO:     posicion.setY(posicion.getY() + velocidad); break;
+            case IZQUIERDA: posicion.setX(posicion.getX() - velocidad); break;
+            case DERECHA:   posicion.setX(posicion.getX() + velocidad); break;
+        }
+    }
 
     public Posicion getPosicion() { return posicion; }
     public double getVelocidad() { return velocidad; }

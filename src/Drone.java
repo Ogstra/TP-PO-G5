@@ -1,31 +1,27 @@
-// Dron enemigo. Es una EntidadVoladora que cruza la pantalla en horizontal
-// y lanza misiles que descienden.
-public class Drone extends EntidadVoladora implements Movible, Danable {
-    private boolean moviendoseADerecha;
+// Dron enemigo. Restringe mover(): solo se desplaza en su direccion horizontal
+// (izquierda o derecha). Es Danable: cualquier impacto lo destruye.
+public class Drone extends EntidadVoladora implements Danable {
+    private Direccion direccion;
     private boolean vivo;
 
-    public Drone(String id, Posicion posicion, double velocidad, boolean moviendoseADerecha) {
+    public Drone(String id, Posicion posicion, double velocidad, Direccion direccion) {
         super(id, posicion, velocidad);
-        this.moviendoseADerecha = moviendoseADerecha;
+        this.direccion = direccion;
         this.vivo = true;
     }
 
-    // Cualquier impacto destruye el dron
+    @Override
+    public void mover(Direccion direccion) {
+        // El dron solo se mueve en horizontal; ignora arriba/abajo
+        if (direccion == Direccion.IZQUIERDA || direccion == Direccion.DERECHA) {
+            super.mover(direccion);
+        }
+    }
+
     @Override
     public void recibirDanio(double valor) {
         if (valor > 0) {
             this.vivo = false;
-        }
-    }
-
-    public boolean estaVivo() { return vivo; }
-
-    @Override
-    public void mover() {
-        if (moviendoseADerecha) {
-            posicion.setX(posicion.getX() + velocidad);
-        } else {
-            posicion.setX(posicion.getX() - velocidad);
         }
     }
 
@@ -37,7 +33,7 @@ public class Drone extends EntidadVoladora implements Movible, Danable {
     }
 
     public boolean completoRecorrido() {
-        if (moviendoseADerecha) {
+        if (direccion == Direccion.DERECHA) {
             return posicion.getX() >= Posicion.X_MAX;
         } else {
             return posicion.getX() <= Posicion.X_MIN;
@@ -48,4 +44,7 @@ public class Drone extends EntidadVoladora implements Movible, Danable {
     public boolean puedeLanzar(double frecuencia) {
         return Math.random() < frecuencia;
     }
+
+    public Direccion getDireccion() { return direccion; }
+    public boolean estaVivo() { return vivo; }
 }

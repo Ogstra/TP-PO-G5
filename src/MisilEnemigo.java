@@ -1,4 +1,4 @@
-// Misil lanzado por un dron: desciende en linea recta y detona al alcanzar
+// Misil lanzado por un dron: solo se mueve hacia ABAJO y detona al alcanzar
 // la altitud aleatoria programada en el lanzamiento.
 public class MisilEnemigo extends Misil {
     private double yDetonacion;
@@ -9,9 +9,14 @@ public class MisilEnemigo extends Misil {
     }
 
     @Override
-    public void mover() {
-        posicion.setY(posicion.getY() + velocidad); // desciende
+    public void mover(Direccion direccion) {
+        if (direccion == Direccion.ABAJO) {
+            super.mover(direccion);
+        }
     }
+
+    @Override
+    public Direccion getDireccion() { return Direccion.ABAJO; }
 
     @Override
     protected boolean alcanzoDetonacion() {
@@ -19,7 +24,5 @@ public class MisilEnemigo extends Misil {
     }
 
     @Override
-    public boolean esDelJugador() {
-        return false;
-    }
+    public boolean esDelJugador() { return false; }
 }

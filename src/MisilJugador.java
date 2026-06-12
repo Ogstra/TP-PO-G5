@@ -1,5 +1,5 @@
-// Misil disparado por el avion: asciende y solo explota al impactar un dron
-// (no detona por altura). Se descarta si sale por el borde superior.
+// Misil disparado por el avion: solo se mueve hacia ARRIBA y explota unicamente
+// al impactar un dron (no detona por altura).
 public class MisilJugador extends Misil {
 
     public MisilJugador(String id, Posicion posicionInicial, double velocidad) {
@@ -7,17 +7,18 @@ public class MisilJugador extends Misil {
     }
 
     @Override
-    public void mover() {
-        posicion.setY(posicion.getY() - velocidad); // sube
+    public void mover(Direccion direccion) {
+        if (direccion == Direccion.ARRIBA) {
+            super.mover(direccion);
+        }
     }
 
     @Override
-    protected boolean alcanzoDetonacion() {
-        return false; // solo detona por colision con un dron
-    }
+    public Direccion getDireccion() { return Direccion.ARRIBA; }
 
     @Override
-    public boolean esDelJugador() {
-        return true;
-    }
+    protected boolean alcanzoDetonacion() { return false; }
+
+    @Override
+    public boolean esDelJugador() { return true; }
 }
