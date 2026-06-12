@@ -1,6 +1,6 @@
 // Dron enemigo. Es una EntidadVoladora que cruza la pantalla en horizontal
 // y lanza misiles que descienden.
-public class Drone extends EntidadVoladora {
+public class Drone extends EntidadVoladora implements Movible {
     private boolean moviendoseADerecha;
 
     public Drone(String id, Posicion posicion, double velocidad, boolean moviendoseADerecha) {
@@ -8,6 +8,7 @@ public class Drone extends EntidadVoladora {
         this.moviendoseADerecha = moviendoseADerecha;
     }
 
+    @Override
     public void mover() {
         if (moviendoseADerecha) {
             posicion.setX(posicion.getX() + velocidad);
