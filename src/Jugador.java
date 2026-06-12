@@ -17,13 +17,6 @@ public class Jugador implements IDanable {
         this.puntos += cantidad;
     }
 
-    public void restarPuntos(int cantidad) {
-        this.puntos -= cantidad;
-        if (this.puntos < 0) {
-            this.puntos = 0;
-        }
-    }
-
     @Override
     public void recibirDanio(String tipo, double valor) {
         if (valor <= 0) {

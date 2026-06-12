@@ -14,7 +14,7 @@ public class Misil extends EntidadVoladora {
         posicion.setY(posicion.getY() + velocidad); // desciende (Y aumenta en pantalla)
     }
 
-    public boolean debeDetonar() {
+    private boolean debeDetonar() {
         return posicion.getY() >= yDetonacion;
     }
 
@@ -22,11 +22,10 @@ public class Misil extends EntidadVoladora {
     public Explosion detonar() {
         if (debeDetonar()) {
             this.detonado = true;
-            return new Explosion(this.posicion, 100, 50);
+            return new Explosion(this.posicion, 100);
         }
         return null;
     }
 
     public boolean estaDetonado() { return detonado; }
-    public double getYDetonacion() { return yDetonacion; }
 }

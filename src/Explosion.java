@@ -1,13 +1,13 @@
+// Explosion de un misil. Solo guarda epicentro y radio para el calculo de
+// distancia al avion y para la animacion visual (que dura unos frames).
 public class Explosion {
     private Posicion epicentro;
     private double radioEfecto;
-    private double potencia;
     private int framesRestantes = 15;
 
-    public Explosion(Posicion epicentro, double radioEfecto, double potencia) {
+    public Explosion(Posicion epicentro, double radioEfecto) {
         this.epicentro = epicentro;
         this.radioEfecto = radioEfecto;
-        this.potencia = potencia;
     }
 
     // Envejece la animacion un frame
@@ -15,21 +15,6 @@ public class Explosion {
     public boolean estaViva() { return framesRestantes > 0; }
     public int getFramesRestantes() { return framesRestantes; }
 
-    public double calcularDanioADistancia(Posicion objetivo) {
-        double distancia = epicentro.distanciaA(objetivo);
-        if (distancia > radioEfecto) {
-            return 0;
-        }
-
-        // Danio proporcional a la potencia y decrece con la distancia
-        return potencia * (1 - (distancia / radioEfecto));
-    }
-
-    public boolean afectaA(Posicion objetivo) {
-        return epicentro.distanciaA(objetivo) <= radioEfecto;
-    }
-
     public Posicion getEpicentro() { return epicentro; }
     public double getRadioEfecto() { return radioEfecto; }
-    public double getPotencia() { return potencia; }
 }

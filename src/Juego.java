@@ -27,7 +27,7 @@ public class Juego {
     }
 
     public boolean debeContinuar() {
-        return enCurso && jugador.estaVivo() && avion.estaActivo();
+        return enCurso && jugador.estaVivo();
     }
 
     public void terminar() {
@@ -101,7 +101,7 @@ public class Juego {
 
         // Si perdio una vida y sigue vivo: explota el avion y reaparece en el centro
         if (jugador.getVidasRestantes() < vidasAntes && jugador.estaVivo()) {
-            explosionesRecientes.add(new Explosion(avion.getPosicion(), 80, 0));
+            explosionesRecientes.add(new Explosion(avion.getPosicion(), 80));
             avion.reaparecer();
         }
 
