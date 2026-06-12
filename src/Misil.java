@@ -23,7 +23,7 @@ public class Misil extends EntidadVoladora implements Movible {
     public Explosion detonar() {
         if (debeDetonar()) {
             this.detonado = true;
-            return new Explosion(this.posicion, 100);
+            return new Explosion(this.posicion);
         }
         return null;
     }

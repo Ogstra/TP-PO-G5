@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// Logica de negocio del juego (sin nada de interfaz grafica).
 public class Juego {
     private Jugador jugador;
     private Avion avion;
     private List<Misil> misiles;
-    private List<Explosion> explosionesRecientes = new ArrayList<>();
     private boolean enCurso;
     private int proximaVidaExtra = 1000;
     private Escuadron escuadron;
@@ -50,13 +50,6 @@ public class Juego {
 
     // Mueve los misiles enemigos, los detona al alcanzar su altitud y aplica dano
     public void procesarCaidaMisiles() {
-        // envejecer explosiones de frames anteriores
-        for (int i = explosionesRecientes.size() - 1; i >= 0; i--) {
-            explosionesRecientes.get(i).envejecer();
-            if (!explosionesRecientes.get(i).estaViva()) {
-                explosionesRecientes.remove(i);
-            }
-        }
         for (int i = misiles.size() - 1; i >= 0; i--) {
             Misil misil = misiles.get(i);
             if (misil.estaDetonado()) {
@@ -67,7 +60,6 @@ public class Juego {
 
             Explosion explosion = misil.detonar();
             if (explosion != null) {
-                explosionesRecientes.add(explosion);
                 double distancia = explosion.getEpicentro().distanciaA(avion.getPosicion());
                 aplicarDanioSegunDistancia(distancia);
                 misiles.remove(i);
@@ -88,24 +80,20 @@ public class Juego {
         for (Drone drone : escuadron.getDronesActivos()) {
             if (avion.getPosicion().distanciaA(drone.getPosicion()) < 25) {
                 drone.recibirDanio(1);
-                explosionesRecientes.add(new Explosion(drone.getPosicion(), 60));
                 int vidasAntes = jugador.getVidasRestantes();
-                jugador.recibirDanio(Jugador.VIDA_MAX * 0.33); // el choque cuesta 33% de energia
+                jugador.recibirDanio(Jugador.VIDA_MAX * 0.33);
                 manejarPerdidaDeVida(vidasAntes);
                 break; // un choque por frame basta
             }
         }
     }
 
-    // Si el jugador perdio una vida y sigue vivo, el avion explota y reaparece
+    // Si el jugador perdio una vida y sigue vivo, el avion reaparece en el centro
     private void manejarPerdidaDeVida(int vidasAntes) {
         if (jugador.getVidasRestantes() < vidasAntes && jugador.estaVivo()) {
-            explosionesRecientes.add(new Explosion(avion.getPosicion(), 80));
             avion.reaparecer();
         }
     }
-
-    public List<Explosion> getExplosionesRecientes() { return explosionesRecientes; }
 
     // Aplica dano segun 4 rangos de distancia definidos en el requerimiento
     public void aplicarDanioSegunDistancia(double distancia) {
@@ -145,23 +133,6 @@ public class Juego {
         this.escuadron = new Escuadron(nivel.getVelocidadDrones());
     }
 
-    public Jugador getJugador() {
-        return jugador;
-    }
-
-    public Avion getAvion() {
-        return avion;
-    }
-
-    public List<Misil> getMisiles() {
-        return misiles;
-    }
-
-    public List<Drone> getDronesActivos() {
-        return escuadron != null ? escuadron.getDronesActivos() : new ArrayList<>();
-    }
-
-    public boolean isEnCurso() {
-        return enCurso;
-    }
+    public Jugador getJugador() { return jugador; }
+    public Avion getAvion() { return avion; }
 }
