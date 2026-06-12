@@ -91,13 +91,13 @@ public class Juego {
         if (escuadron == null) return;
         List<Drone> drones = escuadron.getDronesActivos();
 
-        // Contacto avion-dron: destruye el dron pero le cuesta una vida al jugador
+        // Contacto avion-dron: destruye el dron pero le cuesta 33% de energia al jugador
         for (Drone drone : drones) {
             if (avion.getPosicion().distanciaA(drone.getPosicion()) < 25) {
                 drone.recibirDanio(1);
                 explosionesRecientes.add(new Explosion(drone.getPosicion(), 60));
                 int vidasAntes = jugador.getVidasRestantes();
-                jugador.perderVida();
+                jugador.recibirDanio(Jugador.VIDA_MAX * 0.33); // el choque cuesta 33% de energia
                 manejarPerdidaDeVida(vidasAntes);
                 break; // un choque por frame basta
             }
