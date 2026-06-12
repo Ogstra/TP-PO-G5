@@ -58,20 +58,13 @@ public class PanelJuego extends JPanel {
             );
         }
 
-        // Misiles
+        // Misiles enemigos (caen desde los drones)
+        g.setColor(Color.RED);
         for (Misil misil : juego.getMisiles()) {
             if (!misil.estaDetonado()) {
                 int mx = (int) misil.getPosicion().getX();
                 int my = (int) misil.getPosicion().getY();
-                if (misil.esDelJugador()) {
-                    g.setColor(Color.YELLOW);
-                    g.fillRect(mx - 2, my - 12, 4, 16);
-                    g.setColor(new Color(255, 200, 0));
-                    g.fillOval(mx - 3, my - 14, 6, 6);
-                } else {
-                    g.setColor(Color.RED);
-                    g.fillOval(mx - 4, my - 4, 8, 8);
-                }
+                g.fillOval(mx - 4, my - 4, 8, 8);
             }
         }
 

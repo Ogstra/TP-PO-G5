@@ -57,12 +57,6 @@ public class Escuadron {
         return misils;
     }
 
-    // Destruye un dron impactado por un misil del jugador
-    public void destruir(Drone drone) {
-        drone.desactivar();
-        dronesActivos.remove(drone);
-    }
-
     public boolean estaCompleto() {
         return indiceProximo >= drones.size() && dronesActivos.isEmpty();
     }

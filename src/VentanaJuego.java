@@ -30,12 +30,8 @@ public class VentanaJuego {
         while (!control.quiereSalir()) {
             if (juego.debeContinuar()) {
                 control.procesarMovimientoContinuo();
-                if (control.consumirDisparo()) {
-                    juego.procesarLanzamientoMisil();
-                }
                 juego.procesarEscuadron();
                 juego.procesarCaidaMisiles();
-                juego.procesarColisiones();
                 if (juego.nivelCompleto()) {
                     juego.avanzarNivel();
                 }
