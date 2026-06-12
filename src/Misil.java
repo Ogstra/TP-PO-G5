@@ -1,6 +1,6 @@
 // Misil lanzado por un dron. Es una EntidadVoladora que desciende en linea
 // recta y detona automaticamente al alcanzar su altitud de detonacion.
-public class Misil extends EntidadVoladora {
+public class Misil extends EntidadVoladora implements Movible {
     private double yDetonacion;
     private boolean detonado;
 
@@ -10,6 +10,7 @@ public class Misil extends EntidadVoladora {
         this.detonado = false;
     }
 
+    @Override
     public void mover() {
         posicion.setY(posicion.getY() + velocidad); // desciende (Y aumenta en pantalla)
     }
