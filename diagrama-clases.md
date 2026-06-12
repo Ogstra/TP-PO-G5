@@ -19,6 +19,11 @@ classDiagram
         +mover()
     }
 
+    class Danable {
+        <<interface>>
+        +recibirDanio(double valor)
+    }
+
     class Avion {
         +mover(double dx, double dy)
         +reaparecer()
@@ -26,7 +31,10 @@ classDiagram
 
     class Drone {
         -boolean moviendoseADerecha
+        -boolean vivo
         +mover()
+        +recibirDanio(double valor)
+        +estaVivo() boolean
         +lanzarMisil(double velocidadMisil) Misil
         +completoRecorrido() boolean
         +puedeLanzar(double frecuencia) boolean
@@ -83,7 +91,7 @@ classDiagram
         -int vida
         -int vidasRestantes
         +sumarPuntos(int)
-        +recibirDanio(double)
+        +recibirDanio(double valor)
         +perderVida()
         +ganarVidaExtra()
         +estaVivo() boolean
@@ -108,6 +116,8 @@ classDiagram
     EntidadVoladora <|-- Misil
     Movible <|.. Drone
     Movible <|.. Misil
+    Danable <|.. Drone
+    Danable <|.. Jugador
 
     Drone ..> Misil : lanza
     Misil ..> Explosion : crea

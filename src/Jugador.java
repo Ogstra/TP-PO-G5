@@ -1,4 +1,4 @@
-public class Jugador {
+public class Jugador implements Danable {
     public static final int VIDA_MAX = 100;
 
     private String nombre;
@@ -17,6 +17,7 @@ public class Jugador {
         this.puntos += cantidad;
     }
 
+    @Override
     public void recibirDanio(double valor) {
         if (valor <= 0) {
             return;

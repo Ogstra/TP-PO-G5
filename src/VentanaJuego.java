@@ -32,6 +32,7 @@ public class VentanaJuego {
                 control.procesarMovimientoContinuo();
                 juego.procesarEscuadron();
                 juego.procesarCaidaMisiles();
+                juego.procesarColisiones();
                 if (juego.nivelCompleto()) {
                     juego.avanzarNivel();
                 }

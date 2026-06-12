@@ -82,6 +82,17 @@ public class Juego {
         }
     }
 
+    // El avion destruye por contacto a los drones con los que choca
+    public void procesarColisiones() {
+        if (escuadron == null) return;
+        for (Drone drone : escuadron.getDronesActivos()) {
+            if (avion.getPosicion().distanciaA(drone.getPosicion()) < 25) {
+                drone.recibirDanio(1);
+                explosionesRecientes.add(new Explosion(drone.getPosicion(), 60));
+            }
+        }
+    }
+
     public List<Explosion> getExplosionesRecientes() { return explosionesRecientes; }
 
     // Aplica dano segun 4 rangos de distancia definidos en el requerimiento

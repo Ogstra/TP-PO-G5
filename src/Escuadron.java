@@ -30,7 +30,7 @@ public class Escuadron {
         for (int i = dronesActivos.size() - 1; i >= 0; i--) {
             Drone drone = dronesActivos.get(i);
             drone.mover();
-            if (drone.completoRecorrido()) {
+            if (drone.completoRecorrido() || !drone.estaVivo()) {
                 dronesActivos.remove(i);
             }
         }
