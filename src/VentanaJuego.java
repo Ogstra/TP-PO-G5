@@ -46,7 +46,7 @@ public class VentanaJuego {
             }
             panel.repaint();
             try {
-                Thread.sleep(16);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 break;
             }

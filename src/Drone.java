@@ -10,7 +10,6 @@ public class Drone extends EntidadVoladora {
         this.moviendoseADerecha = moviendoseADerecha;
     }
 
-    @Override
     public void mover() {
         if (moviendoseADerecha) {
             posicion.setX(posicion.getX() + velocidad);

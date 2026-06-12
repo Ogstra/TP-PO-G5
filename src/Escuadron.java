@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Escuadron {
-    private static final int TOTAL_DRONES = 10;
-    private static final int MAX_ACTIVOS = 4;
+    private static final int TOTAL_DRONES = 20;
+    private static final int MAX_ACTIVOS = 10;
 
     private List<Drone> drones = new ArrayList<>();
     private List<Drone> dronesActivos = new ArrayList<>();

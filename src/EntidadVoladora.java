@@ -13,8 +13,8 @@ public abstract class EntidadVoladora {
         this.velocidad = velocidad;
     }
 
-    // Cada entidad concreta define como se desplaza
-    public abstract void mover();
+    // El movimiento lo define cada entidad con la firma que le corresponde
+    // (el avion necesita direccion; drones y misiles se mueven solos).
 
     public Posicion getPosicion() { return posicion; }
     public double getVelocidad() { return velocidad; }

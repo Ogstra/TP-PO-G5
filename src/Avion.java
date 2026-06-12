@@ -14,13 +14,6 @@ public class Avion extends EntidadVoladora implements IDanable {
         this.posicion.setY(this.posicion.getY() + dy);
     }
 
-    // mover() sin parametros de EntidadVoladora: el avion se mueve por input,
-    // no de forma automatica, por eso aqui no hace nada.
-    @Override
-    public void mover() {
-        // no-op: el desplazamiento real ocurre en mover(dx, dy)
-    }
-
     public Misil generarMisil() {
         // El misil del jugador viaja al doble de la velocidad del avion
         return new MisilJugador(this.id, new Posicion(posicion.getX(), posicion.getY()), velocidad * 2);

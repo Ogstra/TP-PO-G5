@@ -8,6 +8,9 @@ public abstract class Misil extends EntidadVoladora {
         this.detonado = false;
     }
 
+    // Cada subtipo define su direccion de movimiento
+    public abstract void mover();
+
     // Cada subtipo decide si detona automaticamente por su altura
     protected abstract boolean alcanzoDetonacion();
 
