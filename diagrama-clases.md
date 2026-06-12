@@ -9,41 +9,33 @@ classDiagram
         #String id
         #Posicion posicion
         #double velocidad
-        +mover()*
         +getPosicion() Posicion
         +getVelocidad() double
         +getId() String
     }
 
-    class IDanable {
+    class Movible {
         <<interface>>
-        +recibirDanio(String tipo, double valor)
+        +mover()
     }
 
     class Avion {
-        -boolean activo
         +mover(double dx, double dy)
-        +mover()
         +reaparecer()
-        +estaActivo() boolean
     }
 
     class Drone {
-        -boolean activo
         -boolean moviendoseADerecha
         +mover()
         +lanzarMisil(double velocidadMisil) Misil
         +completoRecorrido() boolean
         +puedeLanzar(double frecuencia) boolean
-        +activar()
-        +desactivar()
     }
 
     class Misil {
         -double yDetonacion
         -boolean detonado
         +mover()
-        +debeDetonar() boolean
         +detonar() Explosion
         +estaDetonado() boolean
     }
@@ -51,12 +43,10 @@ classDiagram
     class Explosion {
         -Posicion epicentro
         -double radioEfecto
-        -double potencia
         -int framesRestantes
-        +calcularDanioADistancia(Posicion) double
-        +afectaA(Posicion) boolean
         +envejecer()
         +estaViva() boolean
+        +getEpicentro() Posicion
     }
 
     class Posicion {
@@ -93,7 +83,7 @@ classDiagram
         -int vida
         -int vidasRestantes
         +sumarPuntos(int)
-        +recibirDanio(String, double)
+        +recibirDanio(double)
         +perderVida()
         +ganarVidaExtra()
         +estaVivo() boolean
@@ -116,7 +106,8 @@ classDiagram
     EntidadVoladora <|-- Avion
     EntidadVoladora <|-- Drone
     EntidadVoladora <|-- Misil
-    IDanable <|.. Jugador
+    Movible <|.. Drone
+    Movible <|.. Misil
 
     Drone ..> Misil : lanza
     Misil ..> Explosion : crea
@@ -132,15 +123,17 @@ classDiagram
 
 ## Notas de diseño
 
-- **`EntidadVoladora`** (abstracta) — generaliza el estado y comportamiento de
-  todo lo que se desplaza por el espacio aereo: `Avion`, `Drone` y `Misil`.
-  Aporta `posicion`, `velocidad`, `id` y el metodo abstracto `mover()`.
-- **`IDanable`** (interfaz) — contrato "puede recibir dano". Implementado por
-  `Jugador`. Permite aplicar dano sin acoplar a la clase concreta.
-- **`Misil`** — concreto. Lo lanza un dron, desciende en linea recta y detona a
-  una altitud aleatoria. El jugador **no dispara**: solo esquiva (segun consigna).
+- **`EntidadVoladora`** (clase abstracta) — comparte el **estado** comun de toda
+  entidad del espacio aereo: `Avion`, `Drone`, `Misil`. Aporta `posicion`,
+  `velocidad`, `id`. No se puede instanciar.
+- **`Movible`** (interface) — contrato de **comportamiento** "se desplaza solo
+  cada tick". Lo implementan `Drone` (cruza horizontal) y `Misil` (desciende).
+  El `Avion` **no** lo implementa: se mueve por input del jugador, con otra firma.
+- **`Misil`** — concreto. Lo lanza un dron, cae en linea recta y detona a una
+  altitud aleatoria. El jugador no dispara: solo esquiva (segun consigna).
 
-### Principios aplicados
-- **Herencia** — `EntidadVoladora` como base de avion, dron y misil.
-- **Polimorfismo** — `mover()` se redefine en cada entidad.
-- **SRP** — `Jugador` (puntos/vida), `Avion` (posicion), `Juego` (orquestacion) separados.
+### Distincion clase abstracta vs interface (Clase 10)
+- **Clase abstracta** (`EntidadVoladora`) — cuando se comparte **estado/codigo**
+  entre clases estrechamente relacionadas.
+- **Interface** (`Movible`) — cuando se especifica un **comportamiento** que
+  pueden cumplir distintas clases, sin compartir implementacion.
