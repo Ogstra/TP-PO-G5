@@ -1,12 +1,24 @@
 // Dron enemigo. Es una EntidadVoladora que cruza la pantalla en horizontal
 // y lanza misiles que descienden.
-public class Drone extends EntidadVoladora implements Movible {
+public class Drone extends EntidadVoladora implements Movible, Danable {
     private boolean moviendoseADerecha;
+    private boolean vivo;
 
     public Drone(String id, Posicion posicion, double velocidad, boolean moviendoseADerecha) {
         super(id, posicion, velocidad);
         this.moviendoseADerecha = moviendoseADerecha;
+        this.vivo = true;
     }
+
+    // Cualquier impacto destruye el dron
+    @Override
+    public void recibirDanio(double valor) {
+        if (valor > 0) {
+            this.vivo = false;
+        }
+    }
+
+    public boolean estaVivo() { return vivo; }
 
     @Override
     public void mover() {
