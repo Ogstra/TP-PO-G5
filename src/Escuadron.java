@@ -15,7 +15,7 @@ public class Escuadron {
             boolean derecha = Math.random() < 0.5;
             Direccion dir = derecha ? Direccion.DERECHA : Direccion.IZQUIERDA;
             double x = derecha ? Posicion.X_MIN : Posicion.X_MAX;
-            double y = Math.random() * (Posicion.Y_MAX / 3);
+            double y = Math.random() * (Posicion.Y_MAX / 1.5);
             drones.add(new Drone("D" + i, new Posicion(x, y), velocidad, dir));
         }
     }

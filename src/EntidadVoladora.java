@@ -16,10 +16,10 @@ public abstract class EntidadVoladora implements Movible {
     @Override
     public void mover(Direccion direccion) {
         switch (direccion) {
-            case ARRIBA:    posicion.setY(posicion.getY() - velocidad); break;
-            case ABAJO:     posicion.setY(posicion.getY() + velocidad); break;
-            case IZQUIERDA: posicion.setX(posicion.getX() - velocidad); break;
-            case DERECHA:   posicion.setX(posicion.getX() + velocidad); break;
+            case ARRIBA:    posicion = new Posicion(posicion.x(), posicion.y() - velocidad); break;
+            case ABAJO:     posicion = new Posicion(posicion.x(), posicion.y() + velocidad); break;
+            case IZQUIERDA: posicion = new Posicion(posicion.x() - velocidad, posicion.y()); break;
+            case DERECHA:   posicion = new Posicion(posicion.x() + velocidad, posicion.y()); break;
         }
     }
 

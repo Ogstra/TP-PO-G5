@@ -16,8 +16,8 @@ public class PanelJuego extends JPanel {
 
         // Avion
         Avion avion = juego.getAvion();
-        int ax = (int) avion.getPosicion().getX();
-        int ay = (int) avion.getPosicion().getY();
+        int ax = (int) avion.getPosicion().x();
+        int ay = (int) avion.getPosicion().y();
 
         // Alas
         g.setColor(new Color(0, 180, 200));
@@ -47,8 +47,8 @@ public class PanelJuego extends JPanel {
         // Drones
         g.setColor(Color.GREEN);
         for (Drone drone : juego.getDronesActivos()) {
-            int dx = (int) drone.getPosicion().getX();
-            int dy = (int) drone.getPosicion().getY();
+            int dx = (int) drone.getPosicion().x();
+            int dy = (int) drone.getPosicion().y();
             g.fillPolygon(
                 new int[]{dx, dx - 12, dx - 8, dx + 8, dx + 12},
                 new int[]{dy + 8, dy - 4, dy + 4, dy + 4, dy - 4},
@@ -59,8 +59,8 @@ public class PanelJuego extends JPanel {
         // Misiles: amarillo alargado los del jugador (suben), rojo los enemigos (caen)
         for (Misil misil : juego.getMisiles()) {
             if (!misil.estaDetonado()) {
-                int mx = (int) misil.getPosicion().getX();
-                int my = (int) misil.getPosicion().getY();
+                int mx = (int) misil.getPosicion().x();
+                int my = (int) misil.getPosicion().y();
                 if (misil.esDelJugador()) {
                     g.setColor(Color.YELLOW);
                     g.fillRect(mx - 2, my - 12, 4, 16);
@@ -74,8 +74,8 @@ public class PanelJuego extends JPanel {
         // Explosiones (animan: crecen y se desvanecen segun framesRestantes)
         Graphics2D g2 = (Graphics2D) g;
         for (Explosion exp : juego.getExplosionesRecientes()) {
-            int ex = (int) exp.getEpicentro().getX();
-            int ey = (int) exp.getEpicentro().getY();
+            int ex = (int) exp.getEpicentro().x();
+            int ey = (int) exp.getEpicentro().y();
             int radio = (int) exp.getRadioEfecto();
             // progreso 0.0 (recien) -> 1.0 (por desaparecer)
             double progreso = 1.0 - (exp.getFramesRestantes() / 15.0);
@@ -92,7 +92,7 @@ public class PanelJuego extends JPanel {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Monospaced", Font.PLAIN, 14));
         g.drawString("Puntos: " + juego.getJugador().getPuntos(), 10, 20);
-        g.drawString("Vida: " + juego.getJugador().getVida(), 10, 40);
+        g.drawString("Energia: " + juego.getJugador().getEnergia(), 10, 40);
         g.drawString("Vidas: " + juego.getJugador().getVidasRestantes(), 10, 60);
 
         if (!juego.isEnCurso()) {

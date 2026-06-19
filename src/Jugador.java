@@ -1,14 +1,14 @@
 public class Jugador implements Danable {
-    public static final int VIDA_MAX = 100;
+    public static final int ENERGIA_MAX = 100;
 
     private String nombre;
     private int puntos;
-    private int vida;
+    private int energia;
     private int vidasRestantes;
 
-    public Jugador(String nombre, int vidaInicial, int vidasRestantes) {
+    public Jugador(String nombre, int energiaInicial, int vidasRestantes) {
         this.nombre = nombre;
-        this.vida = vidaInicial;
+        this.energia = energiaInicial;
         this.vidasRestantes = vidasRestantes;
         this.puntos = 0;
     }
@@ -23,8 +23,8 @@ public class Jugador implements Danable {
             return;
         }
 
-        this.vida -= (int) valor;
-        if (this.vida <= 0) {
+        this.energia -= (int) valor;
+        if (this.energia <= 0) {
             perderVida();
         }
     }
@@ -32,9 +32,9 @@ public class Jugador implements Danable {
     public void perderVida() {
         if (vidasRestantes > 0) {
             vidasRestantes--;
-            vida = VIDA_MAX; // Reiniciar energia al perder una vida
+            energia = ENERGIA_MAX;
         } else {
-            vida = 0; // El jugador ha perdido todas las vidas
+            energia = 0;
         }
     }
 
@@ -43,11 +43,11 @@ public class Jugador implements Danable {
     }
 
     public boolean estaVivo() {
-        return vida > 0 || vidasRestantes > 0;
+        return energia > 0 || vidasRestantes > 0;
     }
 
     public String getNombre() { return nombre; }
     public int getPuntos() { return puntos; }
-    public int getVida() { return vida; }
+    public int getEnergia() { return energia; }
     public int getVidasRestantes() { return vidasRestantes; }
 }

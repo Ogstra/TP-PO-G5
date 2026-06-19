@@ -20,7 +20,7 @@ public class MisilEnemigo extends Misil {
 
     @Override
     protected boolean alcanzoDetonacion() {
-        return posicion.getY() >= yDetonacion;
+        return posicion.y() >= yDetonacion;
     }
 
     @Override

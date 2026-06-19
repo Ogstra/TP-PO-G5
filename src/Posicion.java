@@ -1,26 +1,12 @@
-public class Posicion {
+public record Posicion(double x, double y) {
     public static final double X_MIN = 0;
     public static final double X_MAX = 1280;
     public static final double Y_MIN = 0;
     public static final double Y_MAX = 720;
 
-    private double x;
-    private double y;
-
-    public Posicion(double x, double y) {
-        this.x = ajustarAlRango(x, X_MIN, X_MAX);
-        this.y = ajustarAlRango(y, Y_MIN, Y_MAX);
-    }
-
-    public double getX() { return x; }
-    public double getY() { return y; }
-
-    public void setX(double x) {
-        this.x = ajustarAlRango(x, X_MIN, X_MAX);
-    }
-
-    public void setY(double y) {
-        this.y = ajustarAlRango(y, Y_MIN, Y_MAX);
+    public Posicion {
+        x = ajustarAlRango(x, X_MIN, X_MAX);
+        y = ajustarAlRango(y, Y_MIN, Y_MAX);
     }
 
     public double distanciaA(Posicion otra) {
@@ -30,14 +16,8 @@ public class Posicion {
     }
 
     private static double ajustarAlRango(double valor, double minimo, double maximo) {
-        if (valor < minimo) {
-            return minimo;
-        }
-
-        if (valor > maximo) {
-            return maximo;
-        }
-
+        if (valor < minimo) return minimo;
+        if (valor > maximo) return maximo;
         return valor;
     }
 }

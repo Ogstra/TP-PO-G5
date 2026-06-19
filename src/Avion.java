@@ -8,11 +8,11 @@ public class Avion extends EntidadVoladora {
 
     public Misil generarMisil() {
         // El misil del jugador viaja al doble de la velocidad del avion
-        return new MisilJugador(this.id, new Posicion(posicion.getX(), posicion.getY()), velocidad * 2);
+        return new MisilJugador(this.id, new Posicion(posicion.x(), posicion.y()), velocidad * 3);
     }
 
     // Reaparece en el centro del eje X tras perder una vida
     public void reaparecer() {
-        this.posicion = new Posicion(Posicion.X_MAX / 2, this.posicion.getY());
+        this.posicion = new Posicion(Posicion.X_MAX / 2, this.posicion.y());
     }
 }

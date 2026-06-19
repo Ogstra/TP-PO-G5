@@ -6,12 +6,24 @@ public class VentanaJuego {
         Jugador jugador = new Jugador("Jugador 1", 100, 3);
         Avion avion = new Avion("A1", new Posicion(640, 360), 5);
         Juego juego = new Juego(jugador, avion);
-
         PanelJuego panel = new PanelJuego(juego);
         panel.setPreferredSize(new Dimension(1280, 720)); // area de juego 16:9
         ControlJugador control = new ControlJugador(juego, panel);
 
         JFrame ventana = new JFrame("TPO Paradigmas");
+        // boton para reiniciar nivel
+        ventana.setJMenuBar(new JMenuBar() {{
+            add(new JMenu("Opciones") {{
+                add(new JMenuItem("Reiniciar Nivel") {{
+                    addActionListener(e -> {
+                        juego.iniciar();
+                        panel.requestFocusInWindow();
+                    });
+                }});
+            }});
+        }});
+
+
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setResizable(false);
         ventana.add(panel);

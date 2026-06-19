@@ -40,7 +40,7 @@ public class Juego {
         System.out.println("Juego finalizado.");
         System.out.println("Jugador: " + jugador.getNombre());
         System.out.println("Puntos obtenidos: " + jugador.getPuntos());
-        System.out.println("Vida actual: " + jugador.getVida());
+        System.out.println("Energia actual: " + jugador.getEnergia());
         System.out.println("Vidas restantes: " + jugador.getVidasRestantes());
     }
 
@@ -79,7 +79,7 @@ public class Juego {
             }
 
             // Eliminar misiles que salieron de pantalla sin detonar
-            double y = misil.getPosicion().getY();
+            double y = misil.getPosicion().y();
             if (y >= Posicion.Y_MAX || y <= Posicion.Y_MIN) {
                 misiles.remove(i);
             }
@@ -95,9 +95,9 @@ public class Juego {
         for (Drone drone : drones) {
             if (avion.getPosicion().distanciaA(drone.getPosicion()) < 25) {
                 drone.recibirDanio(1);
-                explosionesRecientes.add(new Explosion(drone.getPosicion(), 60));
+                explosionesRecientes.add(new Explosion(drone.getPosicion(), 90));
                 int vidasAntes = jugador.getVidasRestantes();
-                jugador.recibirDanio(Jugador.VIDA_MAX * 0.33); // el choque cuesta 33% de energia
+                jugador.recibirDanio(Jugador.ENERGIA_MAX * 0.66); // el choque cuesta 66% de energia
                 manejarPerdidaDeVida(vidasAntes);
                 break; // un choque por frame basta
             }
@@ -136,9 +136,9 @@ public class Juego {
             jugador.sumarPuntos(40);
         } else if (distancia >= 80) {
             jugador.sumarPuntos(20);
-            jugador.recibirDanio(Jugador.VIDA_MAX * 0.2);
+            jugador.recibirDanio(Jugador.ENERGIA_MAX * 0.2);
         } else if (distancia >= 20) {
-            jugador.recibirDanio(Jugador.VIDA_MAX * 0.4);
+            jugador.recibirDanio(Jugador.ENERGIA_MAX * 0.4);
         } else {
             jugador.perderVida();
         }

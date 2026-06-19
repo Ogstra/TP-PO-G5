@@ -26,17 +26,17 @@ public class Drone extends EntidadVoladora implements Danable {
     }
 
     public Misil lanzarMisil(double velocidadMisil) {
-        double minY = posicion.getY() + 50;
+        double minY = posicion.y() + 50;
         double maxY = Posicion.Y_MAX - 10;
         double yDetonacion = minY < maxY ? minY + Math.random() * (maxY - minY) : maxY;
-        return new MisilEnemigo(this.id, new Posicion(posicion.getX(), posicion.getY()), yDetonacion, velocidadMisil);
+        return new MisilEnemigo(this.id, new Posicion(posicion.x(), posicion.y()), yDetonacion, velocidadMisil);
     }
 
     public boolean completoRecorrido() {
         if (direccion == Direccion.DERECHA) {
-            return posicion.getX() >= Posicion.X_MAX;
+            return posicion.x() >= Posicion.X_MAX;
         } else {
-            return posicion.getX() <= Posicion.X_MIN;
+            return posicion.x() <= Posicion.X_MIN;
         }
     }
 
