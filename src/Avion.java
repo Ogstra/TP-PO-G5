@@ -13,6 +13,6 @@ public class Avion extends EntidadVoladora {
 
     // Reaparece en el centro del eje X tras perder una vida
     public void reaparecer() {
-        this.posicion = new Posicion(Posicion.X_MAX / 2, this.posicion.y());
+        this.posicion = new Posicion(Posicion.X_MAX / 2, Posicion.Y_MAX / 1.25);
     }
 }
