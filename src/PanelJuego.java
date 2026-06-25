@@ -50,8 +50,8 @@ public class PanelJuego extends JPanel {
             int dx = (int) drone.getPosicion().x();
             int dy = (int) drone.getPosicion().y();
             g.fillPolygon(
-                new int[]{dx, dx - 12, dx - 8, dx + 8, dx + 12},
-                new int[]{dy + 8, dy - 4, dy + 4, dy + 4, dy - 4},
+                new int[]{dx, dx - 15, dx - 10, dx + 10, dx + 15},
+                new int[]{dy + 10, dy - 5, dy + 5, dy + 5, dy - 5},
                 5
             );
         }
@@ -89,11 +89,14 @@ public class PanelJuego extends JPanel {
         }
 
         // HUD
+        g.setFont(new Font("Monospaced", Font.PLAIN, 36));
         g.setColor(Color.WHITE);
-        g.setFont(new Font("Monospaced", Font.PLAIN, 14));
-        g.drawString("Puntos: " + juego.getJugador().getPuntos(), 10, 20);
-        g.drawString("Energia: " + juego.getJugador().getEnergia(), 10, 40);
-        g.drawString("Vidas: " + juego.getJugador().getVidasRestantes(), 10, 60);
+        g.drawString("Puntos: " + juego.getJugador().getPuntos(), 10, 40);
+        int energia = juego.getJugador().getEnergia();
+        g.setColor(energia < 30 ? Color.RED : Color.WHITE);
+        g.drawString("Energía: " + energia, 10, 80);
+        g.setColor(Color.WHITE);
+        g.drawString("Vidas: " + juego.getJugador().getVidasRestantes(), 10, 120);
 
         if (!juego.isEnCurso()) {
             g.setColor(Color.YELLOW);
