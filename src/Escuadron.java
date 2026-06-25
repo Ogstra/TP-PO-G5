@@ -21,10 +21,13 @@ public class Escuadron {
     }
 
     public void activarProximoDrone() {
-        if (dronesActivos.size() < MAX_ACTIVOS && indiceProximo < drones.size()) {
-            dronesActivos.add(drones.get(indiceProximo));
-            indiceProximo++;
-        }
+        activarDrones(1);
+    }
+
+    private void activarDrones(int cantidad) {
+        if (cantidad == 0 || dronesActivos.size() >= MAX_ACTIVOS || indiceProximo >= drones.size()) return;
+        dronesActivos.add(drones.get(indiceProximo++));
+        activarDrones(cantidad - 1);
     }
 
     public void procesarMovimiento() {
